@@ -9,10 +9,12 @@ THIS_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 source /opt/rh/python27/enable
 
 export HEPPY_FCC=$THIS_DIR
+
 if [ -z ${PODIO+x} ]; then
     echo 'PODIO not set'
 else
     export PYTHONPATH=$PODIO/python:$PYTHONPATH
 fi
+
 export PYTHONPATH=$THIS_DIR/..:$PYTHONPATH
 export ROOT_INCLUDE_PATH=$PODIO/include:$ROOT_INCLUDE_PATH

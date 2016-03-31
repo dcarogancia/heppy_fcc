@@ -14,7 +14,7 @@ comp = cfg.Component(
 )
 comp.files.append("example2.root")
 
-# comp.splitFactor = 2
+comp.splitFactor = 2
 selectedComponents = [comp]
 
 from heppy_fcc.analyzers.FCCReader import FCCReader
@@ -26,12 +26,12 @@ from ROOT import gSystem
 gSystem.Load("libdatamodel")
 from EventStore import EventStore as Events
 
-# from heppy_fcc.analyzers.JetClusterizer import JetClusterizer
-# gen_jets = cfg.Analyzer(
-#     JetClusterizer,
-#     instance_label = 'gen',
-#     particles = 'gen_particles_stable'
-# )
+from heppy_fcc.analyzers.JetClusterizer import JetClusterizer
+gen_jets = cfg.Analyzer(
+    JetClusterizer,
+    instance_label = 'gen',
+    particles = 'gen_particles_stable'
+)
 
 from heppy_fcc.analyzers.SimpleTreeProducer import SimpleTreeProducer
 gen_tree = cfg.Analyzer(
@@ -42,7 +42,7 @@ gen_tree = cfg.Analyzer(
 # the analyzers will process each event in this order
 sequence = cfg.Sequence( [
     source,
-    # gen_jets,
+    gen_jets,
     ] )
 
 # comp.files.append('example_2.root')
