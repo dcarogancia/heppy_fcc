@@ -1,0 +1,18 @@
+# do not track anything except for certain files and folders
+*
+
+!analyzers
+!display
+!fastsim
+!macros
+!particles
+!samples
+!tools
+!utility
+!README.md
+!*.py
+!init.sh
+!.gitignore
+
+*.pyc
+*.~
