@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+ln -sf $CMSSW_BASE/src/PhysicsTools/HeppyCore/scripts/heppy_loop.py tmp_heppy.py
+python -m cProfile -o restats tmp_heppy.py "$@" 
+rm tmp_heppy.py
