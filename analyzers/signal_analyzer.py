@@ -1,3 +1,6 @@
+## Analyzer of Bd -> K* tau tau events
+#  It is supposed to be used within heppy_fcc framework
+
 from heppy.framework.analyzer import Analyzer
 from heppy.statistics.tree import Tree
 
@@ -142,7 +145,7 @@ class signal_analyzer(Analyzer):
 
 				b = copy.deepcopy(ptc_gen1) # copy is needed in order to keep initial particle properties after smearing
 
-				pb = math.sqrt(b.p.px ** 2 + b.p.py ** 2 + b.p.pz ** 2)
+				pb = b.p.absvalue()
 
 				if self.cfg_ana.smear_momentum:
 					b.p = smear_momentum(b.p, self.cfg_ana.momentum_x_resolution, self.cfg_ana.momentum_y_resolution, self.cfg_ana.momentum_z_resolution)

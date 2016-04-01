@@ -3,6 +3,7 @@ from heppy_fcc.utility.Vertex import Vertex
 
 class Particle(object):
 	"""A class that represents a generated particle"""
+	
 	def __init__(self, pdgid = None, charge = None, p = None, start_vertex = None, end_vertex = None):
 		super(Particle, self).__init__()
 		self.pdgid = pdgid

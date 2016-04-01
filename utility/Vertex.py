@@ -1,5 +1,6 @@
 class Vertex(object):
 	"""A class that represents a 3D vertex"""
+	
 	def __init__(self, x = None, y = None, z = None):
 		super(Vertex, self).__init__()
 		self.x = x
