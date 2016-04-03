@@ -1,4 +1,4 @@
-## Analyzer of Bs -> Ds Ds K* events
+## Analyzer of B0s -> Ds+ Ds- K*0 events
 #  It is supposed to be used within heppy_fcc framework
 
 from heppy.framework.analyzer import Analyzer

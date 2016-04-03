@@ -1,3 +1,5 @@
+## Configuration script for background (B0d -> K*0 Ds tau nu) analyzer
+
 import os
 import heppy.framework.config as cfg
 import logging
@@ -5,7 +7,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/generator/background_Bd2DsKTauNu_1k.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu_1k.root'])
 
 selected_components  = [input_component]
 
@@ -33,6 +35,8 @@ bgana = cfg.Analyzer(background_Bd2DsKTauNu_analyzer,
 					 stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
 					 tree_name = 'Events',
 					 tree_title = 'Events',
+					 mc_truth_tree_name = 'MCTruth',
+					 mc_truth_tree_title = 'MC Truth',
 					 verbose = False
 					 )
 

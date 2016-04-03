@@ -1,4 +1,4 @@
-## Analyzer of Bd -> Ds K* tau nu events
+## Analyzer of B0d -> Ds K* tau nu events
 #  It is supposed to be used within heppy_fcc framework
 
 from heppy.framework.analyzer import Analyzer
