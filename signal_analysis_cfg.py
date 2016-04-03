@@ -5,7 +5,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/generator/signal_5k.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/signal_5k.root'])
 
 selected_components  = [input_component]
 
@@ -33,6 +33,8 @@ sigana = cfg.Analyzer(signal_analyzer,
 					 stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
 					 tree_name = 'Events',
 					 tree_title = 'Events',
+					 mc_truth_tree_name = 'MCTruth',
+					 mc_truth_tree_title = 'MC Truth',
 					 verbose = False
 					 )
 
