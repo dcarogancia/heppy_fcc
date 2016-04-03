@@ -35,7 +35,7 @@ class signal_analyzer(Analyzer):
 		self.fdb_counter = 0 # Number of events with B flight distance > 1 mm
 		self.fdtau_counter = 0 # Number of events with any tau flight distance > 0.5 mm
 
-		gROOT.ProcessLine('.x ' + self.cfg_ana.stylepath) # nice loking plots
+		gROOT.ProcessLine('.x ' + self.cfg_ana.stylepath) # nice looking plots
 
 		# histograms to visualize cuts
 		self.pb_hist = TH1F('pb_hist', 'P_{B}', 500, 0, 50)
@@ -144,12 +144,12 @@ class signal_analyzer(Analyzer):
 		self.tree.var('pi3_tauminus_q')
 
 	def process(self, event):
-		b_mc_truth = Particle() # B particle (MC truth)
-		k_star_mc_truth = Particle() # K* from B decay (MC truth)
-		k_mc_truth = Particle() # K from K* decay (MC truth)
+		b_mc_truth = Particle() # B0d particle (MC truth)
+		k_star_mc_truth = Particle() # K*0 from B0d decay (MC truth)
+		k_mc_truth = Particle() # K from K*0 decay (MC truth)
 		pi_k_mc_truth = Particle() # pi from K* decay (MC truth)
-		tauplus_mc_truth = Particle() # tau+ (MC truth)
-		tauminus_mc_truth = Particle() # tau- (MC truth)
+		tauplus_mc_truth = Particle() # tau+ from B0d decay (MC truth)
+		tauminus_mc_truth = Particle() # tau- from B0d decay (MC truth)
 		pi1_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
 		pi2_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
 		pi3_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
@@ -163,8 +163,8 @@ class signal_analyzer(Analyzer):
 		tv_tauplus_mc_truth = Vertex() # tau+ decay vertex (MC truth)
 		tv_tauminus_mc_truth = Vertex() # tau- decay vertex (MC truth)
 
-		k = Particle() # K from K* decay
-		pi_k = Particle() # pi from K* decay
+		k = Particle() # K from K*0 decay
+		pi_k = Particle() # pi from K*0 decay
 		pi1_tauplus = Particle() # pi from tau+ decay
 		pi2_tauplus = Particle() # pi from tau+ decay
 		pi3_tauplus = Particle() # pi from tau+ decay
@@ -205,31 +205,30 @@ class signal_analyzer(Analyzer):
 				if pb > 25.: # select only events with large momentum of the B
 					self.pb_counter += 1
 
-					pvsv_distance = math.sqrt((b_mc_truth.end_vertex.x - b_mc_truth.start_vertex.x) ** 2 + (b_mc_truth.end_vertex.y - b_mc_truth.start_vertex.y) ** 2 + (b_mc_truth.end_vertex.z - b_mc_truth.start_vertex.z) ** 2)
+					pv_mc_truth = b_mc_truth.start_vertex
+					sv_mc_truth = b_mc_truth.end_vertex
+					pvsv_distance = math.sqrt((sv_mc_truth.x - pv_mc_truth.x) ** 2 + (sv_mc_truth.y - pv_mc_truth.y) ** 2 + (sv_mc_truth.z - pv_mc_truth.z) ** 2)
 
 					if pvsv_distance > 1.: # select only events with long flight distance of the B
 						self.fdb_counter += 1
 
-						pv_mc_truth = b_mc_truth.start_vertex
-						pv = copy.deepcopy(b_mc_truth.start_vertex)
-
-						sv_mc_truth = b_mc_truth.end_vertex
-						sv = copy.deepcopy(b_mc_truth.end_vertex)
+						pv = copy.deepcopy(pv_mc_truth)
+						sv = copy.deepcopy(sv_mc_truth)
 
 						for ptc_gen2 in ptcs:
 							# looking for tauplus
 							if ptc_gen2.pdgid == -15 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
 								tauplus_mc_truth = ptc_gen2
 								tv_tauplus_mc_truth = ptc_gen2.end_vertex
-								tv_tauplus = copy.deepcopy(tauplus_mc_truth.end_vertex) # copy is needed in order to keep initial vertex properties after smearing
-								svtv_tauplus_distance = math.sqrt((tauplus_mc_truth.end_vertex.x - b_mc_truth.end_vertex.x) ** 2 + (tauplus_mc_truth.end_vertex.y - b_mc_truth.end_vertex.y) ** 2 + (tauplus_mc_truth.end_vertex.z - b_mc_truth.end_vertex.z) ** 2)
+								tv_tauplus = copy.deepcopy(tv_tauplus_mc_truth) # copy is needed in order to keep initial vertex properties after smearing
+								svtv_tauplus_distance = math.sqrt((tv_tauplus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauplus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauplus_mc_truth.z - sv_mc_truth.z) ** 2)
 
 							# looking for tauMinus
 							if ptc_gen2.pdgid == 15 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
 								tauminus_mc_truth = ptc_gen2
 								tv_tauminus_mc_truth = ptc_gen2.end_vertex
-								tv_tauminus = copy.deepcopy(tauminus_mc_truth.end_vertex) # copy is needed in order to keep initial vertex properties after smearing
-								svtv_tauminus_distance = math.sqrt((tauminus_mc_truth.end_vertex.x - b_mc_truth.end_vertex.x) ** 2 + (tauminus_mc_truth.end_vertex.y - b_mc_truth.end_vertex.y) ** 2 + (tauminus_mc_truth.end_vertex.z - b_mc_truth.end_vertex.z) ** 2)
+								tv_tauminus = copy.deepcopy(tv_tauminus_mc_truth) # copy is needed in order to keep initial vertex properties after smearing
+								svtv_tauminus_distance = math.sqrt((tv_tauminus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauminus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauminus_mc_truth.z - sv_mc_truth.z) ** 2)
 
 							# looking for K*
 							if abs(ptc_gen2.pdgid) == 313 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
@@ -237,15 +236,15 @@ class signal_analyzer(Analyzer):
 
 								# looking for K
 								for ptc_gen3 in ptcs:
-									if abs(ptc_gen3.pdgid) == 321 and ptc_gen3.start_vertex == ptc_gen2.end_vertex:
+									if abs(ptc_gen3.pdgid) == 321 and ptc_gen3.start_vertex == k_star_mc_truth.end_vertex:
 										k_mc_truth = ptc_gen3
-										k = copy.deepcopy(ptc_gen3) # copy is needed in order to keep initial particle properties after smearing
+										k = copy.deepcopy(k_mc_truth) # copy is needed in order to keep initial particle properties after smearing
 
 								# looking for pi_K
 								for ptc_gen3 in ptcs:
-									if abs(ptc_gen3.pdgid) == 211 and ptc_gen3.start_vertex == ptc_gen2.end_vertex:
+									if abs(ptc_gen3.pdgid) == 211 and ptc_gen3.start_vertex == k_star_mc_truth.end_vertex:
 										pi_k_mc_truth = ptc_gen3
-										pi_k = copy.deepcopy(ptc_gen3) # copy is needed in order to keep initial particle properties after smearing
+										pi_k = copy.deepcopy(pi_k_mc_truth) # copy is needed in order to keep initial particle properties after smearing
 
 						if max(svtv_tauplus_distance, svtv_tauminus_distance) > 0.5: # select only events with long flight distance of tau
 							self.fdtau_counter += 1
