@@ -1,3 +1,5 @@
+## Configuration script for signal (B0d -> K*0 tau+ tau-) analyzer
+
 import os
 import heppy.framework.config as cfg
 import logging
