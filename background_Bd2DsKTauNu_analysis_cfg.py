@@ -14,8 +14,8 @@ selected_components  = [input_component]
 # analyzers
 
 # analyzer for Bd -> Ds K* tau nu_tau events
-from heppy_fcc.analyzers.background_Bd2DsKTauNu_analyzer import background_Bd2DsKTauNu_analyzer
-bgana = cfg.Analyzer(background_Bd2DsKTauNu_analyzer,
+from heppy_fcc.analyzers.Background_Bd2DsKTauNu_analyzer import Background_Bd2DsKTauNu_analyzer
+bgana = cfg.Analyzer(Background_Bd2DsKTauNu_analyzer,
 					 smear_pv = True,
 					#  pv_x_resolution = 0.0025,
  				# 	 pv_y_resolution = 0.0025,

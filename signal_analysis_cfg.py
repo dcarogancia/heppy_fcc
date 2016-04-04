@@ -14,8 +14,8 @@ selected_components  = [input_component]
 # analyzers
 
 # analyzer for signal events
-from heppy_fcc.analyzers.signal_analyzer import signal_analyzer
-sigana = cfg.Analyzer(signal_analyzer,
+from heppy_fcc.analyzers.Signal_analyzer import Signal_analyzer
+sigana = cfg.Analyzer(Signal_analyzer,
 					 smear_pv = True,
 					#  pv_x_resolution = 0.0025,
 					#  pv_y_resolution = 0.0025,

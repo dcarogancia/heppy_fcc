@@ -3,24 +3,26 @@ from heppy_fcc.utility.Vertex import Vertex
 
 class Particle(object):
 	"""A class that represents a generated particle"""
-	
-	def __init__(self, pdgid = None, charge = None, p = None, start_vertex = None, end_vertex = None):
+
+	def __init__(self, pdgid = None, p = None, start_vertex = None, end_vertex = None, status = None, charge = None):
 		super(Particle, self).__init__()
 		self.pdgid = pdgid
-		self.charge = charge
 		self.p = p
 		self.start_vertex = start_vertex
 		self.end_vertex = end_vertex
+		self.status = status
+		self.charge = charge
 
 	@classmethod
 	def fromfccptc(cls, fccptc):
 		pdgid = fccptc.Core().Type
-		charge = fccptc.Core().Charge
 		p = Momentum(fccptc.Core().P4.Px, fccptc.Core().P4.Py, fccptc.Core().P4.Pz)
 		start_vertex = Vertex(fccptc.StartVertex().Position().X, fccptc.StartVertex().Position().Y, fccptc.StartVertex().Position().Z) if fccptc.StartVertex().isAvailable() else None
 		end_vertex = Vertex(fccptc.EndVertex().Position().X, fccptc.EndVertex().Position().Y, fccptc.EndVertex().Position().Z) if fccptc.EndVertex().isAvailable() else None
+		status = fccptc.Core().Status
+		charge = fccptc.Core().Charge
 
-		return cls(pdgid, charge, p, start_vertex, end_vertex)
+		return cls(pdgid, p, start_vertex, end_vertex, status, charge)
 
 	def __repr__(self):
 		return 'Particle({}, {}, {}, {}, {})'.format(self.pdgid, self.charge, self.p, self.start_vertex, self.end_vertex)
