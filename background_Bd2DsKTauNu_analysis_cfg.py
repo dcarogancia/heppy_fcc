@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu_1k.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu.root'])
 
 selected_components  = [input_component]
 
@@ -17,23 +17,23 @@ selected_components  = [input_component]
 from heppy_fcc.analyzers.background_Bd2DsKTauNu_analyzer import background_Bd2DsKTauNu_analyzer
 bgana = cfg.Analyzer(background_Bd2DsKTauNu_analyzer,
 					 smear_pv = True,
-					 #  pv_x_resolution = 0.0025,
- 					#  pv_y_resolution = 0.0025,
- 					#  pv_z_resolution = 0.0025,
+					#  pv_x_resolution = 0.0025,
+ 				# 	 pv_y_resolution = 0.0025,
+ 				# 	 pv_z_resolution = 0.0025,
  					 pv_x_resolution = 0.001,
  					 pv_y_resolution = 0.001,
  					 pv_z_resolution = 0.001,
  					 smear_sv = True,
- 					#  sv_x_resolution = 0.007,
- 					#  sv_y_resolution = 0.007,
- 					#  sv_z_resolution = 0.007,
+ 				# 	 sv_x_resolution = 0.007,
+ 				# 	 sv_y_resolution = 0.007,
+ 				# 	 sv_z_resolution = 0.007,
  					 sv_x_resolution = 0.003,
  					 sv_y_resolution = 0.003,
  					 sv_z_resolution = 0.003,
  					 smear_tv = True,
- 					#  tv_x_resolution = 0.005,
- 					#  tv_y_resolution = 0.005,
- 					#  tv_z_resolution = 0.005,
+ 				# 	 tv_x_resolution = 0.005,
+ 				# 	 tv_y_resolution = 0.005,
+ 				# 	 tv_z_resolution = 0.005,
  					 tv_x_resolution = 0.002,
  					 tv_y_resolution = 0.002,
  					 tv_z_resolution = 0.002,
