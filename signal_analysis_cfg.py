@@ -17,23 +17,29 @@ selected_components  = [input_component]
 from heppy_fcc.analyzers.SignalAnalyzer import SignalAnalyzer
 sigana = cfg.Analyzer(SignalAnalyzer,
 					 smear_pv = True,
+					 # IDL-like res
 					#  pv_x_resolution = 0.0025,
 					#  pv_y_resolution = 0.0025,
 					#  pv_z_resolution = 0.0025,
+					 # improved res
 					 pv_x_resolution = 0.001,
 					 pv_y_resolution = 0.001,
 					 pv_z_resolution = 0.001,
 					 smear_sv = True,
+					 # IDL-like res
 					#  sv_x_resolution = 0.007,
 					#  sv_y_resolution = 0.007,
 					#  sv_z_resolution = 0.007,
+					 # improved res
 					 sv_x_resolution = 0.003,
 					 sv_y_resolution = 0.003,
 					 sv_z_resolution = 0.003,
 					 smear_tv = True,
+					 # IDL-like res
 					#  tv_x_resolution = 0.005,
 					#  tv_y_resolution = 0.005,
 					#  tv_z_resolution = 0.005,
+					 # improved res
 					 tv_x_resolution = 0.002,
 					 tv_y_resolution = 0.002,
 					 tv_z_resolution = 0.002,
@@ -54,6 +60,6 @@ sequence = cfg.Sequence([sigana])
 
 # finalization of the configuration object.
 from ROOT import gSystem
-gSystem.Load("libdatamodel")
+gSystem.Load('libdatamodel')
 from EventStore import EventStore as Events
 config = cfg.Config(components = selected_components, sequence = sequence, services = [], events_class = Events)

@@ -20,6 +20,6 @@ sequence = cfg.Sequence([ana])
 
 # finalization of the configuration object.
 from ROOT import gSystem
-gSystem.Load("libdatamodel")
+gSystem.Load('libdatamodel')
 from EventStore import EventStore as Events
 config = cfg.Config(components = selected_components, sequence = sequence, services = [], events_class = Events)
