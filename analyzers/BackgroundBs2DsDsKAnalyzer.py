@@ -1,4 +1,4 @@
-## Analyzer of B0d -> Ds K* tau nu events
+## Analyzer of B0s -> Ds+ Ds- K*0 events
 #  It is supposed to be used within heppy_fcc framework
 
 from heppy.framework.analyzer import Analyzer
@@ -25,7 +25,7 @@ def smear_momentum(p, px_resolution, py_resolution, pz_resolution):
 def smear_vertex(v, x_resolution, y_resolution, z_resolution):
 	return Vertex(numpy.random.normal(v.x, x_resolution), numpy.random.normal(v.y, y_resolution), numpy.random.normal(v.z, z_resolution))
 
-class Background_Bd2DsKTauNu_analyzer(Analyzer):
+class BackgroundBs2DsDsKAnalyzer(Analyzer):
 	def beginLoop(self, setup):
 		self.start_time = time.time()
 		self.last_timestamp = time.time()
@@ -42,7 +42,7 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 		self.fdb_hist = TH1F('fdb_hist', 'FD_{B}', 500, 0, 10)
 		self.fdtau_hist = TH1F('fdtau_hist', 'Max FD_{#tau}', 500, 0, 5)
 
-		super(Background_Bd2DsKTauNu_analyzer, self).beginLoop(setup)
+		super(Background_Bs2DsDsK_analyzer, self).beginLoop(setup)
 		self.rootfile = TFile('/'.join([self.dirName, 'output.root']), 'recreate')
 
 		# tree to store MC truth values and its branches
@@ -75,51 +75,54 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 		self.mc_truth_tree.var('pi_k_py')
 		self.mc_truth_tree.var('pi_k_pz')
 		self.mc_truth_tree.var('pi_k_q')
-		self.mc_truth_tree.var('d_px')
-		self.mc_truth_tree.var('d_py')
-		self.mc_truth_tree.var('d_pz')
-		self.mc_truth_tree.var('d_q')
-		self.mc_truth_tree.var('tau_d_px')
-		self.mc_truth_tree.var('tau_d_py')
-		self.mc_truth_tree.var('tau_d_pz')
-		self.mc_truth_tree.var('tau_d_q')
-		self.mc_truth_tree.var('pi1_tau_d_px')
-		self.mc_truth_tree.var('pi1_tau_d_py')
-		self.mc_truth_tree.var('pi1_tau_d_pz')
-		self.mc_truth_tree.var('pi1_tau_d_q')
-		self.mc_truth_tree.var('pi2_tau_d_px')
-		self.mc_truth_tree.var('pi2_tau_d_py')
-		self.mc_truth_tree.var('pi2_tau_d_pz')
-		self.mc_truth_tree.var('pi2_tau_d_q')
-		self.mc_truth_tree.var('pi3_tau_d_px')
-		self.mc_truth_tree.var('pi3_tau_d_py')
-		self.mc_truth_tree.var('pi3_tau_d_pz')
-		self.mc_truth_tree.var('pi3_tau_d_q')
-		self.mc_truth_tree.var('nu_tau_d_px')
-		self.mc_truth_tree.var('nu_tau_d_py')
-		self.mc_truth_tree.var('nu_tau_d_pz')
-		self.mc_truth_tree.var('tau_px')
-		self.mc_truth_tree.var('tau_py')
-		self.mc_truth_tree.var('tau_pz')
-		self.mc_truth_tree.var('tau_q')
-		self.mc_truth_tree.var('pi1_tau_px')
-		self.mc_truth_tree.var('pi1_tau_py')
-		self.mc_truth_tree.var('pi1_tau_pz')
-		self.mc_truth_tree.var('pi1_tau_q')
-		self.mc_truth_tree.var('pi2_tau_px')
-		self.mc_truth_tree.var('pi2_tau_py')
-		self.mc_truth_tree.var('pi2_tau_pz')
-		self.mc_truth_tree.var('pi2_tau_q')
-		self.mc_truth_tree.var('pi3_tau_px')
-		self.mc_truth_tree.var('pi3_tau_py')
-		self.mc_truth_tree.var('pi3_tau_pz')
-		self.mc_truth_tree.var('pi3_tau_q')
-		self.mc_truth_tree.var('nu_tau_px')
-		self.mc_truth_tree.var('nu_tau_py')
-		self.mc_truth_tree.var('nu_tau_pz')
-		self.mc_truth_tree.var('nu_px')
-		self.mc_truth_tree.var('nu_py')
-		self.mc_truth_tree.var('nu_pz')
+		self.mc_truth_tree.var('dplus_px')
+		self.mc_truth_tree.var('dplus_py')
+		self.mc_truth_tree.var('dplus_pz')
+		self.mc_truth_tree.var('tauplus_px')
+		self.mc_truth_tree.var('tauplus_py')
+		self.mc_truth_tree.var('tauplus_pz')
+		self.mc_truth_tree.var('pi1_tauplus_px')
+		self.mc_truth_tree.var('pi1_tauplus_py')
+		self.mc_truth_tree.var('pi1_tauplus_pz')
+		self.mc_truth_tree.var('pi1_tauplus_q')
+		self.mc_truth_tree.var('pi2_tauplus_px')
+		self.mc_truth_tree.var('pi2_tauplus_py')
+		self.mc_truth_tree.var('pi2_tauplus_pz')
+		self.mc_truth_tree.var('pi2_tauplus_q')
+		self.mc_truth_tree.var('pi3_tauplus_px')
+		self.mc_truth_tree.var('pi3_tauplus_py')
+		self.mc_truth_tree.var('pi3_tauplus_pz')
+		self.mc_truth_tree.var('pi3_tauplus_q')
+		self.mc_truth_tree.var('nu_tauplus_px')
+		self.mc_truth_tree.var('nu_tauplus_py')
+		self.mc_truth_tree.var('nu_tauplus_pz')
+		self.mc_truth_tree.var('nu_dplus_px')
+		self.mc_truth_tree.var('nu_dplus_py')
+		self.mc_truth_tree.var('nu_dplus_pz')
+		self.mc_truth_tree.var('dminus_px')
+		self.mc_truth_tree.var('dminus_py')
+		self.mc_truth_tree.var('dminus_pz')
+		self.mc_truth_tree.var('tauminus_px')
+		self.mc_truth_tree.var('tauminus_py')
+		self.mc_truth_tree.var('tauminus_pz')
+		self.mc_truth_tree.var('pi1_tauminus_px')
+		self.mc_truth_tree.var('pi1_tauminus_py')
+		self.mc_truth_tree.var('pi1_tauminus_pz')
+		self.mc_truth_tree.var('pi1_tauminus_q')
+		self.mc_truth_tree.var('pi2_tauminus_px')
+		self.mc_truth_tree.var('pi2_tauminus_py')
+		self.mc_truth_tree.var('pi2_tauminus_pz')
+		self.mc_truth_tree.var('pi2_tauminus_q')
+		self.mc_truth_tree.var('pi3_tauminus_px')
+		self.mc_truth_tree.var('pi3_tauminus_py')
+		self.mc_truth_tree.var('pi3_tauminus_pz')
+		self.mc_truth_tree.var('pi3_tauminus_q')
+		self.mc_truth_tree.var('nu_tauminus_px')
+		self.mc_truth_tree.var('nu_tauminus_py')
+		self.mc_truth_tree.var('nu_tauminus_pz')
+		self.mc_truth_tree.var('nu_dminus_px')
+		self.mc_truth_tree.var('nu_dminus_py')
+		self.mc_truth_tree.var('nu_dminus_pz')
 
 		# same for smeared values
 		self.tree = Tree(self.cfg_ana.tree_name, self.cfg_ana.tree_title)
@@ -171,26 +174,28 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 		self.tree.var('pi3_tauminus_q')
 
 	def process(self, event):
-		b_mc_truth = Particle() # B0d particle (MC truth)
-		kstar_mc_truth = Particle() # K*0 from B0d decay (MC truth)
-		k_mc_truth = Particle() # K from K*0 decay (MC truth)
+		b_mc_truth = Particle() # B particle (MC truth)
+		kstar_mc_truth = Particle() # K* from B decay (MC truth)
+		k_mc_truth = Particle() # K from K* decay (MC truth)
 		pi_k_mc_truth = Particle() # pi from K* decay (MC truth)
-		tau_mc_truth = Particle() # tau from B0d decay (MC truth)
-		nu_mc_truth = Particle() # nu from Ds decay (MC truth)
-		d_mc_truth = Particle() # Ds from B0d decay
-		tau_d_mc_truth = Particle() # tau from Ds decay (MC truth)
+		dplus_mc_truth = Particle() # Ds+ from Bs decay
+		dminus_mc_truth = Particle() # Ds- from Bs decay
+		tauplus_mc_truth = Particle() # tau+ from Ds+ decay (MC truth)
+		tauminus_mc_truth = Particle() # tau- from Ds- decay (MC truth)
+		nu_dplus_mc_truth = Particle() # nu from Ds+ decay (MC truth)
+		nu_dminus_mc_truth = Particle() # nu from Ds- decay (MC truth)
 		pi1_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
 		pi2_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
 		pi3_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
-		nu_tauplus_mc_truth = Particle() # nu form tau+ decay (MC truth)
-		pi1_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
-		pi2_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
-		pi3_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
+		nu_tauplus_mc_truth = Particle() # nu from tau+ decay (MC truth)
+		pi1_tauminus_mc_truth = Particle() # pi from tau- decay (MC truth)
+		pi2_tauminus_mc_truth = Particle() # pi from tau- decay (MC truth)
+		pi3_tauminus_mc_truth = Particle() # pi from tau- decay (MC truth)
 		nu_tauminus_mc_truth = Particle() # nu from tau- decay (MC truth)
 		pv_mc_truth = Vertex() # primary vertex (MC truth)
 		sv_mc_truth = Vertex() # secondary vertex (MC truth)
-		tv_tau_mc_truth = Vertex() # tau decay vertex (MC truth)
-		tv_tau_d_mc_truth = Vertex() # tau (from Ds decay)  decay vertex (MC truth)
+		tv_tauplus_mc_truth = Vertex() # tau+ decay vertex (MC truth)
+		tv_tauminus_mc_truth = Vertex() # tau- decay vertex (MC truth)
 
 		k = Particle() # K from K*0 decay
 		pi_k = Particle() # pi from K*0 decay
@@ -221,7 +226,7 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 
 		# looking for B
 		for ptc_gen1 in ptcs:
-			if abs(ptc_gen1.pdgid) == 511 and ptc_gen1.start_vertex != ptc_gen1.end_vertex: # if B found and it's not an oscillation
+			if abs(ptc_gen1.pdgid) == 531 and ptc_gen1.start_vertex != ptc_gen1.end_vertex: # if B found and it's not an oscillation
 				self.counter += 1
 				if self.counter % 100 == 0:
 					print('Processing decay #{} ({:.1f} decays / s)'.format(self.counter, 100. / (time.time() - self.last_timestamp)))
@@ -231,38 +236,51 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 
 				pb = b_mc_truth.p.absvalue()
 
-				if pb > 25.: # select only events with large momentum of the B
+				if pb > 25.: # Select only events with large momentum of the B
 					self.pb_counter += 1
 
 					pv_mc_truth = b_mc_truth.start_vertex
 					sv_mc_truth = b_mc_truth.end_vertex
 					pvsv_distance = math.sqrt((sv_mc_truth.x - pv_mc_truth.x) ** 2 + (sv_mc_truth.y - pv_mc_truth.y) ** 2 + (sv_mc_truth.z - pv_mc_truth.z) ** 2)
 
-					if pvsv_distance > 1.: # select only events with long flight distance of the B
+					if pvsv_distance > 1.: # Select only events with long flight distance of the B
 						self.fdb_counter += 1
 
 						pv = copy.deepcopy(pv_mc_truth)
 						sv = copy.deepcopy(sv_mc_truth)
 
 						for ptc_gen2 in ptcs:
-							# looking for tau
-							if abs(ptc_gen2.pdgid) == 15 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
-								tau_mc_truth = ptc_gen2
+							# looking for Ds+
+							if ptc_gen2.pdgid == 431 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
+								dplus_mc_truth = ptc_gen2
 
-							if abs(ptc_gen2.pdgid) == 16 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
-								nu_mc_truth = ptc_gen2
-
-							# looking for Ds
-							if abs(ptc_gen2.pdgid) == 431 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
-								d_mc_truth = ptc_gen2
-
-								# looking for tau
 								for ptc_gen3 in ptcs:
-									if abs(ptc_gen3.pdgid) == 15 and ptc_gen3.start_vertex == d_mc_truth.end_vertex:
-										tau_d_mc_truth = ptc_gen3
+									# looking for tau+
+									if ptc_gen3.pdgid == -15 and ptc_gen3.start_vertex == dplus_mc_truth.end_vertex:
+										tauplus_mc_truth = ptc_gen3
+										tv_tauplus_mc_truth = ptc_gen3.end_vertex
+										tv_tauplus = copy.deepcopy(tv_tauplus_mc_truth) # copy is needed in order to keep initial vertex properties after smearing
+										svtv_tauplus_distance = math.sqrt((tv_tauplus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauplus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauplus_mc_truth.z - sv_mc_truth.z) ** 2)
 
-									if abs(ptc_gen3.pdgid) == 16 and ptc_gen3.start_vertex == d_mc_truth.end_vertex:
-										nu_tau_d_mc_truth = ptc_gen3
+									# looking for nu
+									if ptc_gen3.pdgid == 16 and ptc_gen3.start_vertex == dplus_mc_truth.end_vertex:
+										nu_dplus_mc_truth = ptc_gen3
+
+							# looking for Ds-
+							if ptc_gen2.pdgid == -431 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
+								dminus_mc_truth = ptc_gen2
+
+								for ptc_gen3 in ptcs:
+									# looking for tau-
+									if ptc_gen3.pdgid == 15 and ptc_gen3.start_vertex == dminus_mc_truth.end_vertex:
+										tauminus_mc_truth = ptc_gen3
+										tv_tauminus_mc_truth = ptc_gen3.end_vertex
+										tv_tauminus = copy.deepcopy(tv_tauminus_mc_truth) # copy is needed in order to keep initial vertex properties after smearing
+										svtv_tauminus_distance = math.sqrt((tv_tauminus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauminus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauminus_mc_truth.z - sv_mc_truth.z) ** 2)
+
+									# looking for nu
+									if ptc_gen3.pdgid == -16 and ptc_gen3.start_vertex == dminus_mc_truth.end_vertex:
+										nu_dminus_mc_truth = ptc_gen3
 
 							# looking for K*
 							if abs(ptc_gen2.pdgid) == 313 and ptc_gen2.start_vertex == b_mc_truth.end_vertex:
@@ -280,28 +298,19 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 										pi_k_mc_truth = ptc_gen3
 										pi_k = copy.deepcopy(pi_k_mc_truth) # copy is needed in order to keep initial particle properties after smearing
 
-						tv_tauplus_mc_truth = tau_mc_truth.end_vertex if tau_mc_truth.pdgid < 0 else tau_d_mc_truth.end_vertex
-						tv_tauminus_mc_truth = tau_mc_truth.end_vertex if tau_mc_truth.pdgid > 0 else tau_d_mc_truth.end_vertex
-
-						svtv_tauplus_distance = math.sqrt((tv_tauplus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauplus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauplus_mc_truth.z - sv_mc_truth.z) ** 2)
-						svtv_tauminus_distance = math.sqrt((tv_tauminus_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_tauminus_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_tauminus_mc_truth.z - sv_mc_truth.z) ** 2)
-
-						tv_tauplus = copy.deepcopy(tv_tauplus_mc_truth)
-						tv_tauminus = copy.deepcopy(tv_tauminus_mc_truth)
-
 						if max(svtv_tauplus_distance, svtv_tauminus_distance) > 0.5: # select only events with long flight distance of tau
 							self.fdtau_counter += 1
 
 							# looking for pions and nu from tau+ decay
 							pis_tauplus_mc_truth = list([])
 							pis_tauplus = list([])
-							for ptc_gen3 in ptcs:
-								if abs(ptc_gen3.pdgid) == 211 and ptc_gen3.start_vertex == tv_tauplus:
-									pis_tauplus_mc_truth.append(ptc_gen3)
-									pis_tauplus.append(copy.deepcopy(ptc_gen3)) # copy is needed in order to keep initial particle properties after smearing
+							for ptc_gen4 in ptcs:
+								if abs(ptc_gen4.pdgid) == 211 and ptc_gen4.start_vertex == tauplus_mc_truth.end_vertex:
+									pis_tauplus_mc_truth.append(ptc_gen4)
+									pis_tauplus.append(copy.deepcopy(ptc_gen4)) # copy is needed in order to keep initial particle properties after smearing
 
-								if ptc_gen3.pdgid == 16:
-									nu_tauplus_mc_truth = ptc_gen3
+								if ptc_gen4.pdgid == 16:
+									nu_tauplus_mc_truth = ptc_gen4
 
 							if len(pis_tauplus_mc_truth) == 3:
 								pi1_tauplus_mc_truth, pi2_tauplus_mc_truth, pi3_tauplus_mc_truth = pis_tauplus_mc_truth[0], pis_tauplus_mc_truth[1], pis_tauplus_mc_truth[2]
@@ -311,13 +320,13 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 							# looking for pions and nu from tau- decay
 							pis_tauminus_mc_truth = list([])
 							pis_tauminus = list([])
-							for ptc_gen3 in ptcs:
-								if abs(ptc_gen3.pdgid) == 211 and ptc_gen3.start_vertex == tv_tauminus:
-									pis_tauminus_mc_truth.append(ptc_gen3)
-									pis_tauminus.append(copy.deepcopy(ptc_gen3)) # copy is needed in order to keep initial particle properties after smearing
+							for ptc_gen4 in ptcs:
+								if abs(ptc_gen4.pdgid) == 211 and ptc_gen4.start_vertex == tauminus_mc_truth.end_vertex:
+									pis_tauminus_mc_truth.append(ptc_gen4)
+									pis_tauminus.append(copy.deepcopy(ptc_gen4)) # copy is needed in order to keep initial particle properties after smearing
 
-								if ptc_gen3.pdgid == -16:
-									nu_tauminus_mc_truth = ptc_gen3
+								if ptc_gen4.pdgid == -16:
+									nu_tauminus_mc_truth = ptc_gen4
 
 							if len(pis_tauminus_mc_truth) == 3:
 								pi1_tauminus_mc_truth, pi2_tauminus_mc_truth, pi3_tauminus_mc_truth = pis_tauminus_mc_truth[0], pis_tauminus_mc_truth[1], pis_tauminus_mc_truth[2]
@@ -392,62 +401,67 @@ class Background_Bd2DsKTauNu_analyzer(Analyzer):
 								self.mc_truth_tree.fill('pi_k_py', pi_k_mc_truth.p.py)
 								self.mc_truth_tree.fill('pi_k_pz', pi_k_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('d_px', d_mc_truth.p.px)
-								self.mc_truth_tree.fill('d_py', d_mc_truth.p.py)
-								self.mc_truth_tree.fill('d_pz', d_mc_truth.p.pz)
-								self.mc_truth_tree.fill('d_q', d_mc_truth.charge)
+								self.mc_truth_tree.fill('dplus_px', dplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('dplus_py', dplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('dplus_pz', dplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('tau_d_px', tau_d_mc_truth.p.px)
-								self.mc_truth_tree.fill('tau_d_py', tau_d_mc_truth.p.py)
-								self.mc_truth_tree.fill('tau_d_pz', tau_d_mc_truth.p.pz)
-								self.mc_truth_tree.fill('tau_d_q', tau_d_mc_truth.charge)
+								self.mc_truth_tree.fill('tauplus_px', tauplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('tauplus_py', tauplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('tauplus_pz', tauplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi1_tau_d_q', pi1_tauplus_mc_truth.charge if tau_d_mc_truth.pdgid < 0 else pi1_tauminus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi1_tau_d_px', pi1_tauplus_mc_truth.p.px if tau_d_mc_truth.pdgid < 0 else pi1_tauminus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi1_tau_d_py', pi1_tauplus_mc_truth.p.py if tau_d_mc_truth.pdgid < 0 else pi1_tauminus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi1_tau_d_pz', pi1_tauplus_mc_truth.p.pz if tau_d_mc_truth.pdgid < 0 else pi1_tauminus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi1_tauplus_q', pi1_tauplus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi1_tauplus_px', pi1_tauplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi1_tauplus_py', pi1_tauplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi1_tauplus_pz', pi1_tauplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi2_tau_d_q', pi2_tauplus_mc_truth.charge if tau_d_mc_truth.pdgid < 0 else pi2_tauminus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi2_tau_d_px', pi2_tauplus_mc_truth.p.px if tau_d_mc_truth.pdgid < 0 else pi2_tauminus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi2_tau_d_py', pi2_tauplus_mc_truth.p.py if tau_d_mc_truth.pdgid < 0 else pi2_tauminus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi2_tau_d_pz', pi2_tauplus_mc_truth.p.pz if tau_d_mc_truth.pdgid < 0 else pi2_tauminus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi2_tauplus_q', pi2_tauplus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi2_tauplus_px', pi2_tauplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi2_tauplus_py', pi2_tauplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi2_tauplus_pz', pi2_tauplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi3_tau_d_q', pi3_tauplus_mc_truth.charge if tau_d_mc_truth.pdgid < 0 else pi3_tauminus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi3_tau_d_px', pi3_tauplus_mc_truth.p.px if tau_d_mc_truth.pdgid < 0 else pi3_tauminus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi3_tau_d_py', pi3_tauplus_mc_truth.p.py if tau_d_mc_truth.pdgid < 0 else pi3_tauminus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi3_tau_d_pz', pi3_tauplus_mc_truth.p.pz if tau_d_mc_truth.pdgid < 0 else pi3_tauminus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi3_tauplus_q', pi3_tauplus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi3_tauplus_px', pi3_tauplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi3_tauplus_py', pi3_tauplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi3_tauplus_pz', pi3_tauplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('nu_tau_d_px', nu_tauplus_mc_truth.p.px if tau_d_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.px)
-								self.mc_truth_tree.fill('nu_tau_d_py', nu_tauplus_mc_truth.p.py if tau_d_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.py)
-								self.mc_truth_tree.fill('nu_tau_d_pz', nu_tauplus_mc_truth.p.pz if tau_d_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('nu_tauplus_px', nu_tauplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('nu_tauplus_py', nu_tauplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('nu_tauplus_pz', nu_tauplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('tau_px', tau_mc_truth.p.px)
-								self.mc_truth_tree.fill('tau_py', tau_mc_truth.p.py)
-								self.mc_truth_tree.fill('tau_pz', tau_mc_truth.p.pz)
-								self.mc_truth_tree.fill('tau_q', tau_mc_truth.charge)
+								self.mc_truth_tree.fill('nu_dplus_px', nu_dplus_mc_truth.p.px)
+								self.mc_truth_tree.fill('nu_dplus_py', nu_dplus_mc_truth.p.py)
+								self.mc_truth_tree.fill('nu_dplus_pz', nu_dplus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi1_tau_q', pi1_tauminus_mc_truth.charge if tau_mc_truth.pdgid > 0 else pi1_tauplus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi1_tau_px', pi1_tauminus_mc_truth.p.px if tau_mc_truth.pdgid > 0 else pi1_tauplus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi1_tau_py', pi1_tauminus_mc_truth.p.py if tau_mc_truth.pdgid > 0 else pi1_tauplus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi1_tau_pz', pi1_tauminus_mc_truth.p.pz if tau_mc_truth.pdgid > 0 else pi1_tauplus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('dminus_px', dminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('dminus_py', dminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('dminus_pz', dminus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi2_tau_q', pi2_tauminus_mc_truth.charge if tau_mc_truth.pdgid > 0 else pi2_tauplus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi2_tau_px', pi2_tauminus_mc_truth.p.px if tau_mc_truth.pdgid > 0 else pi2_tauplus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi2_tau_py', pi2_tauminus_mc_truth.p.py if tau_mc_truth.pdgid > 0 else pi2_tauplus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi2_tau_pz', pi2_tauminus_mc_truth.p.pz if tau_mc_truth.pdgid > 0 else pi2_tauplus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('tauminus_px', tauminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('tauminus_py', tauminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('tauminus_pz', tauminus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('pi3_tau_q', pi3_tauminus_mc_truth.charge if tau_mc_truth.pdgid > 0 else pi3_tauplus_mc_truth.charge)
-								self.mc_truth_tree.fill('pi3_tau_px', pi3_tauminus_mc_truth.p.px if tau_mc_truth.pdgid > 0 else pi3_tauplus_mc_truth.p.px)
-								self.mc_truth_tree.fill('pi3_tau_py', pi3_tauminus_mc_truth.p.py if tau_mc_truth.pdgid > 0 else pi3_tauplus_mc_truth.p.py)
-								self.mc_truth_tree.fill('pi3_tau_pz', pi3_tauminus_mc_truth.p.pz if tau_mc_truth.pdgid > 0 else pi3_tauplus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi1_tauminus_q', pi1_tauminus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi1_tauminus_px', pi1_tauminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi1_tauminus_py', pi1_tauminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi1_tauminus_pz', pi1_tauminus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('nu_tau_px', nu_tauplus_mc_truth.p.px if tau_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.px)
-								self.mc_truth_tree.fill('nu_tau_py', nu_tauplus_mc_truth.p.py if tau_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.py)
-								self.mc_truth_tree.fill('nu_tau_pz', nu_tauplus_mc_truth.p.pz if tau_mc_truth.pdgid < 0 else nu_tauminus_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi2_tauminus_q', pi2_tauminus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi2_tauminus_px', pi2_tauminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi2_tauminus_py', pi2_tauminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi2_tauminus_pz', pi2_tauminus_mc_truth.p.pz)
 
-								self.mc_truth_tree.fill('nu_px', nu_mc_truth.p.px)
-								self.mc_truth_tree.fill('nu_py', nu_mc_truth.p.py)
-								self.mc_truth_tree.fill('nu_pz', nu_mc_truth.p.pz)
+								self.mc_truth_tree.fill('pi3_tauminus_q', pi3_tauminus_mc_truth.charge)
+								self.mc_truth_tree.fill('pi3_tauminus_px', pi3_tauminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('pi3_tauminus_py', pi3_tauminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('pi3_tauminus_pz', pi3_tauminus_mc_truth.p.pz)
+
+								self.mc_truth_tree.fill('nu_tauminus_px', nu_tauminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('nu_tauminus_py', nu_tauminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('nu_tauminus_pz', nu_tauminus_mc_truth.p.pz)
+
+								self.mc_truth_tree.fill('nu_dminus_px', nu_dminus_mc_truth.p.px)
+								self.mc_truth_tree.fill('nu_dminus_py', nu_dminus_mc_truth.p.py)
+								self.mc_truth_tree.fill('nu_dminus_pz', nu_dminus_mc_truth.p.pz)
 
 								self.mc_truth_tree.tree.Fill()
 

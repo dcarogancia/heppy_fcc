@@ -14,8 +14,8 @@ selected_components  = [input_component]
 # analyzers
 
 # analyzer for Bs -> Ds Ds K* events
-from heppy_fcc.analyzers.Background_Bs2DsDsK_analyzer import Background_Bs2DsDsK_analyzer
-bgana = cfg.Analyzer(Background_Bs2DsDsK_analyzer,
+from heppy_fcc.analyzers.BackgroundBs2DsDsKAnalyzer import BackgroundBs2DsDsKAnalyzer
+bgana = cfg.Analyzer(BackgroundBs2DsDsKAnalyzer,
 					 smear_pv = True,
 					#  pv_x_resolution = 0.0025,
 					#  pv_y_resolution = 0.0025,

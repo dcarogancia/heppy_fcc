@@ -5,15 +5,15 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/Z2uubar_10.root'])
+input_component = cfg.Component('Z2uu', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/Z2uubar_100.root'])
 
 selected_components  = [input_component]
 
 # analyzers
 
 # analyzer for signal events
-from heppy_fcc.analyzers.Z2uubar_analyzer import Z2uubar_analyzer
-ana = cfg.Analyzer(Z2uubar_analyzer)
+from heppy_fcc.analyzers.Z2UUAnalyzer import Z2UUAnalyzer
+ana = cfg.Analyzer(Z2UUAnalyzer)
 
 # definition of a sequence of analyzers, the analyzers will process each event in this order
 sequence = cfg.Sequence([ana])
