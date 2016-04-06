@@ -44,8 +44,7 @@ class Z2UUAnalyzer(Analyzer):
 
 		# looking for Z
 		for ptc in ptcs:
-			# print(ptc)
-			# looking for initial uubar pair. Works only because both PYTHIA/HepMC and PODIO store particles ordered
+			# looking for initial uubar pair. This is a dirty hack. Works only because both PYTHIA/HepMC and PODIO store particles ordered. But IT'S NOT GUARANTEED
 			index = 0
 			while (self.u == None or self.ubar == None) and index < len(ptcs):
 				if ptcs[index].pdgid == 2:

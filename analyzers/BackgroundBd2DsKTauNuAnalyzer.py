@@ -32,15 +32,15 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 
 		self.counter = 0 # Total number of processed decays
 		self.pb_counter = 0 # Number of events with B momentum > 25 GeV
-		self.fdb_counter = 0 # Number of events with B flight distance > 1 mm
-		self.fdtau_counter = 0 # Number of events with any tau flight distance > 0.5 mm
+		self.pvsv_distance_counter = 0 # Number of events with distance between PV and SV > 1 mm
+		self.max_svtv_distance_counter = 0 # Number of events with any distance between SV and TV > 0.5 mm
 
 		gROOT.ProcessLine('.x ' + self.cfg_ana.stylepath) # nice looking plots
 
 		# histograms to visualize cuts
 		self.pb_hist = TH1F('pb_hist', 'P_{B}', 500, 0, 50)
-		self.fdb_hist = TH1F('fdb_hist', 'FD_{B}', 500, 0, 10)
-		self.fdtau_hist = TH1F('fdtau_hist', 'Max FD_{#tau}', 500, 0, 5)
+		self.pvsv_distance_hist = TH1F('pvsv_distance_hist', 'FD_{B}', 500, 0, 10)
+		self.max_svtv_distance_hist = TH1F('max_svtv_distance_hist', 'Max FD_{#tau}', 500, 0, 5)
 
 		super(BackgroundBd2DsKTauNuAnalyzer, self).beginLoop(setup)
 		self.rootfile = TFile('/'.join([self.dirName, 'output.root']), 'recreate')
@@ -171,39 +171,39 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 		self.tree.var('pi3_tauminus_q')
 
 	def process(self, event):
-		b_mc_truth = Particle() # B0d particle (MC truth)
-		kstar_mc_truth = Particle() # K*0 from B0d decay (MC truth)
-		k_mc_truth = Particle() # K from K*0 decay (MC truth)
-		pi_k_mc_truth = Particle() # pi from K* decay (MC truth)
-		tau_mc_truth = Particle() # tau from B0d decay (MC truth)
-		nu_mc_truth = Particle() # nu from Ds decay (MC truth)
-		d_mc_truth = Particle() # Ds from B0d decay
-		tau_d_mc_truth = Particle() # tau from Ds decay (MC truth)
-		pi1_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
-		pi2_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
-		pi3_tauplus_mc_truth = Particle() # pi from tau+ decay (MC truth)
-		nu_tauplus_mc_truth = Particle() # nu form tau+ decay (MC truth)
-		pi1_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
-		pi2_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
-		pi3_tauminus_mc_truth = Particle()  # pi from tau- decay (MC truth)
-		nu_tauminus_mc_truth = Particle() # nu from tau- decay (MC truth)
-		pv_mc_truth = Vertex() # primary vertex (MC truth)
-		sv_mc_truth = Vertex() # secondary vertex (MC truth)
-		tv_tau_mc_truth = Vertex() # tau decay vertex (MC truth)
-		tv_tau_d_mc_truth = Vertex() # tau (from Ds decay)  decay vertex (MC truth)
+		b_mc_truth = None # B0d particle (MC truth)
+		kstar_mc_truth = None # K*0 from B0d decay (MC truth)
+		k_mc_truth = None # K from K*0 decay (MC truth)
+		pi_k_mc_truth = None # pi from K* decay (MC truth)
+		tau_mc_truth = None # tau from B0d decay (MC truth)
+		nu_mc_truth = None # nu from Ds decay (MC truth)
+		d_mc_truth = None # Ds from B0d decay
+		tau_d_mc_truth = None # tau from Ds decay (MC truth)
+		pi1_tauplus_mc_truth = None # pi from tau+ decay (MC truth)
+		pi2_tauplus_mc_truth = None # pi from tau+ decay (MC truth)
+		pi3_tauplus_mc_truth = None # pi from tau+ decay (MC truth)
+		nu_tauplus_mc_truth = None # nu form tau+ decay (MC truth)
+		pi1_tauminus_mc_truth = None  # pi from tau- decay (MC truth)
+		pi2_tauminus_mc_truth = None  # pi from tau- decay (MC truth)
+		pi3_tauminus_mc_truth = None  # pi from tau- decay (MC truth)
+		nu_tauminus_mc_truth = None # nu from tau- decay (MC truth)
+		pv_mc_truth = None # primary vertex (MC truth)
+		sv_mc_truth = None # secondary vertex (MC truth)
+		tv_tau_mc_truth = None # tau decay vertex (MC truth)
+		tv_tau_d_mc_truth = None # tau (from Ds decay)  decay vertex (MC truth)
 
-		k = Particle() # K from K*0 decay
-		pi_k = Particle() # pi from K*0 decay
-		pi1_tauplus = Particle() # pi from tau+ decay
-		pi2_tauplus = Particle() # pi from tau+ decay
-		pi3_tauplus = Particle() # pi from tau+ decay
-		pi1_tauminus = Particle() # pi from tau- decay
-		pi2_tauminus = Particle() # pi from tau- decay
-		pi3_tauminus = Particle() # pi from tau- decay
-		pv = Vertex() # primary vertex
-		sv = Vertex() # secondary vertex
-		tv_tauplus = Vertex() # tau+ decay vertex
-		tv_tauminus = Vertex() # tau- decay vertex
+		k = None # K from K*0 decay
+		pi_k = None # pi from K*0 decay
+		pi1_tauplus = None # pi from tau+ decay
+		pi2_tauplus = None # pi from tau+ decay
+		pi3_tauplus = None # pi from tau+ decay
+		pi1_tauminus = None # pi from tau- decay
+		pi2_tauminus = None # pi from tau- decay
+		pi3_tauminus = None # pi from tau- decay
+		pv = None # primary vertex
+		sv = None # secondary vertex
+		tv_tauplus = None # tau+ decay vertex
+		tv_tauminus = None # tau- decay vertex
 
 		pvsv_distance = 0. # distance between PV and SV
 		pb = 0. # B momentum
@@ -239,7 +239,7 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 					pvsv_distance = math.sqrt((sv_mc_truth.x - pv_mc_truth.x) ** 2 + (sv_mc_truth.y - pv_mc_truth.y) ** 2 + (sv_mc_truth.z - pv_mc_truth.z) ** 2)
 
 					if pvsv_distance > 1.: # select only events with long flight distance of the B
-						self.fdb_counter += 1
+						self.pvsv_distance_counter += 1
 
 						pv = copy.deepcopy(pv_mc_truth)
 						sv = copy.deepcopy(sv_mc_truth)
@@ -290,7 +290,7 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 						tv_tauminus = copy.deepcopy(tv_tauminus_mc_truth)
 
 						if max(svtv_tauplus_distance, svtv_tauminus_distance) > 0.5: # select only events with long flight distance of tau
-							self.fdtau_counter += 1
+							self.max_svtv_distance_counter += 1
 
 							# looking for pions and nu from tau+ decay
 							pis_tauplus_mc_truth = list([])
@@ -347,15 +347,14 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 								tv_tauminus = smear_vertex(tv_tauminus, self.cfg_ana.tv_x_resolution, self.cfg_ana.tv_y_resolution, self.cfg_ana.tv_z_resolution)
 
 								# to keep consistency
-								pi1_tauplus.start_vertex = tv_tauplus
-								pi2_tauplus.start_vertex, pi3_tauplus.start_vertex = tv_tauplus, tv_tauplus
+								pi1_tauplus.start_vertex, pi2_tauplus.start_vertex, pi3_tauplus.start_vertex = tv_tauplus, tv_tauplus, tv_tauplus
 								pi1_tauminus.start_vertex, pi2_tauminus.start_vertex, pi3_tauminus.start_vertex = tv_tauminus, tv_tauminus, tv_tauminus
 
 							if k.is_valid() and pi_k.is_valid() and pi1_tauplus.is_valid() and pi2_tauplus.is_valid() and pi3_tauplus.is_valid() and pi1_tauminus.is_valid() and pi2_tauminus.is_valid() and pi3_tauminus.is_valid():
 								# filling histograms
-								self.fdb_hist.Fill(pvsv_distance)
+								self.pvsv_distance_hist.Fill(pvsv_distance)
 								self.pb_hist.Fill(pb)
-								self.fdtau_hist.Fill(max(svtv_tauplus_distance, svtv_tauminus_distance))
+								self.max_svtv_distance_hist.Fill(max(svtv_tauplus_distance, svtv_tauminus_distance))
 
 								# filling MC truth information
 								self.mc_truth_tree.fill('event_number', event_number)
@@ -519,17 +518,17 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 		self.pb_hist.Draw()
 		pb_canvas.Update()
 
-		fdb_canvas = TCanvas('fdb_canvas', 'B flight distance', 600, 400)
-		fdb_canvas.cd()
-		self.fdb_hist.Draw()
-		fdb_canvas.Update()
+		pvsv_distance_canvas = TCanvas('pvsv_distance_canvas', 'B flight distance', 600, 400)
+		pvsv_distance_canvas.cd()
+		self.pvsv_distance_hist.Draw()
+		pvsv_distance_canvas.Update()
 
-		fdtau_canvas = TCanvas('fdtau_canvas', 'Max tau flight distance', 600, 400)
-		fdtau_canvas.cd()
-		self.fdtau_hist.Draw()
-		fdtau_canvas.Update()
+		max_svtv_distance_canvas = TCanvas('max_svtv_distance_canvas', 'Max tau flight distance', 600, 400)
+		max_svtv_distance_canvas.cd()
+		self.max_svtv_distance_hist.Draw()
+		max_svtv_distance_canvas.Update()
 
 		print('Total decays processed: {}'.format(self.counter))
 		print('Elapsed time: {:.1f} s ({:.1f} decays / s)'.format(time.time() - self.start_time, float(self.counter) / (time.time() - self.start_time)))
-		print('Efficiency:\n\tMomentum of B cut: {:.3f}\n\tDistance between PV and SV cut: {:.3f}\n\tMax distance between SV and TV cut: {:.3f}'.format (float(self.pb_counter)/float(self.counter), float(self.fdb_counter)/float(self.counter), float(self.fdtau_counter)/float(self.counter)))
+		print('Efficiency:\n\tMomentum of B cut: {:.3f}\n\tDistance between PV and SV cut: {:.3f}\n\tMax distance between SV and TV cut: {:.3f}'.format (float(self.pb_counter)/float(self.counter), float(self.pvsv_distance_counter)/float(self.counter), float(self.max_svtv_distance_counter)/float(self.counter)))
 		raw_input('Press ENTER when finished')
