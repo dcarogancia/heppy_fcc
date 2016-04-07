@@ -518,12 +518,12 @@ class BackgroundBd2DsKTauNuAnalyzer(Analyzer):
 		self.pb_hist.Draw()
 		pb_canvas.Update()
 
-		pvsv_distance_canvas = TCanvas('pvsv_distance_canvas', 'B flight distance', 600, 400)
+		pvsv_distance_canvas = TCanvas('pvsv_distance_canvas', 'Distance between PV and SV', 600, 400)
 		pvsv_distance_canvas.cd()
 		self.pvsv_distance_hist.Draw()
 		pvsv_distance_canvas.Update()
 
-		max_svtv_distance_canvas = TCanvas('max_svtv_distance_canvas', 'Max tau flight distance', 600, 400)
+		max_svtv_distance_canvas = TCanvas('max_svtv_distance_canvas', 'Max distance between SV and TV', 600, 400)
 		max_svtv_distance_canvas.cd()
 		self.max_svtv_distance_hist.Draw()
 		max_svtv_distance_canvas.Update()
