@@ -9,6 +9,22 @@ from heppy_fcc.utility.Momentum import Momentum
 from heppy_fcc.utility.Vertex import Vertex
 from heppy_fcc.utility.Particle import Particle
 
+particles = {2212: 'proton',
+			 -2212: 'antiproton',
+			 2112: 'neutron',
+			 -2112: 'antineutron',
+			 211: 'pi+',
+			 -211: 'pi-',
+			 321: 'K+',
+			 -321: 'K-',
+			 130: 'K0',
+			 -130: 'anti-K0',
+			 11: 'e-',
+			 -11: 'e+',
+			 13: 'mu-',
+			 -13: 'mu+',
+			 22: 'photon'}
+
 class Z2UUAnalyzer(Analyzer):
 	def contains_high_energy_track(self):
 		ret = False
@@ -64,13 +80,13 @@ class Z2UUAnalyzer(Analyzer):
 		if self.contains_high_energy_track():
 			print('Event #{}'.format(event_number))
 			print('\tu hemisphere')
-			print('\t\t{:<10}{:<10}'.format('Particle', 'Momentum'))
+			print('\t\t{:<12}{:<10}'.format('Particle', 'Momentum'))
 			for ptc in self.u_hemisphere:
-				print('\t\t{:<10}{:<.3f} GeV'.format(ptc.pdgid, ptc.p.absvalue()))
+				print('\t\t{:<12}{:<.3f} GeV'.format(particles[ptc.pdgid], ptc.p.absvalue()))
 			print('\tubar hemisphere')
-			print('\t\t{:<10}{:<8}'.format('Particle', 'Momentum'))
+			print('\t\t{:<12}{:<8}'.format('Particle', 'Momentum'))
 			for ptc in self.ubar_hemisphere:
-				print('\t\t{:<10}{:.3f} GeV'.format(ptc.pdgid, ptc.p.absvalue()))
+				print('\t\t{:<12}{:.3f} GeV'.format(particles[ptc.pdgid], ptc.p.absvalue()))
 
 
 	def write(self, unusefulVar):
