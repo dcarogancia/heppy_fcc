@@ -16,7 +16,10 @@ class Momentum(object):
 		return '(px = {}, py = {}, pz = {})'.format(self.px, self.py, self.pz)
 
 	def __eq__(self, other):
-		return self.px == other.px and self.py == other.py and self.pz == other.pz
+		if isinstance(other, Momentum):
+			return self.px == other.px and self.py == other.py and self.pz == other.pz
+		else:
+			return False
 
 	def __ne__(self, other):
 		return not self == other
