@@ -257,9 +257,7 @@ class SignalAnalyzer(Analyzer):
 							self.max_svtv_distance_counter += 1
 
 							pis_tauplus_mc_truth = list([])
-							pis_tauplus = list([])
 							pis_tauminus_mc_truth = list([])
-							pis_tauminus = list([])
 
 							for ptc_gen3 in ptcs:
 								if ptc_gen3.start_vertex == kstar_mc_truth.end_vertex:
@@ -277,7 +275,6 @@ class SignalAnalyzer(Analyzer):
 									# looking for pions from tau+ decay
 									if abs(ptc_gen3.pdgid) == 211:
 										pis_tauplus_mc_truth.append(ptc_gen3)
-										pis_tauplus.append(copy.deepcopy(ptc_gen3)) # copy is needed in order to keep initial particle properties after smearing
 
 									# looking for nu from tau+ decay
 									if ptc_gen3.pdgid == -16:
@@ -287,7 +284,6 @@ class SignalAnalyzer(Analyzer):
 									# looking for pions from tau- decay
 									if abs(ptc_gen3.pdgid) == 211:
 										pis_tauminus_mc_truth.append(ptc_gen3)
-										pis_tauminus.append(copy.deepcopy(ptc_gen3)) # copy is needed in order to keep initial particle properties after smearing
 
 									# looking for nu from tau- decay
 									if ptc_gen3.pdgid == 16:
@@ -295,13 +291,11 @@ class SignalAnalyzer(Analyzer):
 
 							if len(pis_tauplus_mc_truth) == 3:
 								pi1_tauplus_mc_truth, pi2_tauplus_mc_truth, pi3_tauplus_mc_truth = pis_tauplus_mc_truth[0], pis_tauplus_mc_truth[1], pis_tauplus_mc_truth[2]
-							if len(pis_tauplus) == 3:
-								pi1_tauplus, pi2_tauplus, pi3_tauplus = pis_tauplus[0], pis_tauplus[1], pis_tauplus[2]
+								pi1_tauplus, pi2_tauplus, pi3_tauplus = copy.deepcopy(pi1_tauplus_mc_truth), copy.deepcopy(pi2_tauplus_mc_truth), copy.deepcopy(pi3_tauplus_mc_truth)
 
 							if len(pis_tauminus_mc_truth) == 3:
 								pi1_tauminus_mc_truth, pi2_tauminus_mc_truth, pi3_tauminus_mc_truth = pis_tauminus_mc_truth[0], pis_tauminus_mc_truth[1], pis_tauminus_mc_truth[2]
-							if len(pis_tauplus) == 3:
-								pi1_tauminus, pi2_tauminus, pi3_tauminus = pis_tauminus[0], pis_tauminus[1], pis_tauminus[2]
+								pi1_tauminus, pi2_tauminus, pi3_tauminus = copy.deepcopy(pi1_tauminus_mc_truth), copy.deepcopy(pi2_tauminus_mc_truth), copy.deepcopy(pi3_tauminus_mc_truth)
 
 							# applying smearing
 							if self.cfg_ana.smear_momentum:
