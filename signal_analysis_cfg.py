@@ -16,34 +16,46 @@ selected_components  = [input_component]
 # analyzer for signal events
 from heppy_fcc.analyzers.SignalAnalyzer import SignalAnalyzer
 sigana = cfg.Analyzer(SignalAnalyzer,
-					 smear_pv = True,
+					 smear_pv = False,
 					 # IDL-like res
-					#  pv_x_resolution = 0.0025,
-					#  pv_y_resolution = 0.0025,
-					#  pv_z_resolution = 0.0025,
-					 # improved res
-					 pv_x_resolution = 0.001,
-					 pv_y_resolution = 0.001,
-					 pv_z_resolution = 0.001,
-					 smear_sv = True,
+					 pv_x_resolution = 0.0025,
+					 pv_y_resolution = 0.0025,
+					 pv_z_resolution = 0.0025,
+					 # progressive res
+					#  pv_x_resolution = 0.001,
+					#  pv_y_resolution = 0.001,
+					#  pv_z_resolution = 0.001,
+					 # ALEPH-like res
+					#  pv_x_resolution = 0.01,
+					#  pv_y_resolution = 0.01,
+					#  pv_z_resolution = 0.01,
+					 smear_sv = False,
 					 # IDL-like res
-					#  sv_x_resolution = 0.007,
-					#  sv_y_resolution = 0.007,
-					#  sv_z_resolution = 0.007,
-					 # improved res
-					 sv_x_resolution = 0.003,
-					 sv_y_resolution = 0.003,
-					 sv_z_resolution = 0.003,
-					 smear_tv = True,
+					 sv_x_resolution = 0.007,
+					 sv_y_resolution = 0.007,
+					 sv_z_resolution = 0.007,
+					 # progressive res
+					#  sv_x_resolution = 0.003,
+					#  sv_y_resolution = 0.003,
+					#  sv_z_resolution = 0.003,
+					#  ALEPH-like res
+					#  sv_x_resolution = 0.04,
+					#  sv_y_resolution = 0.04,
+					#  sv_z_resolution = 0.04,
+					 smear_tv = False,
 					 # IDL-like res
-					#  tv_x_resolution = 0.005,
-					#  tv_y_resolution = 0.005,
-					#  tv_z_resolution = 0.005,
-					 # improved res
-					 tv_x_resolution = 0.002,
-					 tv_y_resolution = 0.002,
-					 tv_z_resolution = 0.002,
-					 smear_momentum = True,
+					 tv_x_resolution = 0.005,
+					 tv_y_resolution = 0.005,
+					 tv_z_resolution = 0.005,
+					 # progressive res
+					#  tv_x_resolution = 0.002,
+					#  tv_y_resolution = 0.002,
+					#  tv_z_resolution = 0.002,
+					 # ALEPH-like res
+					#  tv_x_resolution = 0.02,
+					#  tv_y_resolution = 0.02,
+					#  tv_z_resolution = 0.02,
+					 smear_momentum = False,
 					 momentum_x_resolution = 0.01,
 					 momentum_y_resolution = 0.01,
 					 momentum_z_resolution = 0.01,

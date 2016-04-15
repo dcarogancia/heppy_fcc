@@ -326,13 +326,11 @@ class BackgroundBs2DsDsKAnalyzer(Analyzer):
 
 							if len(pis_tauplus_mc_truth) == 3:
 								pi1_tauplus_mc_truth, pi2_tauplus_mc_truth, pi3_tauplus_mc_truth = pis_tauplus_mc_truth[0], pis_tauplus_mc_truth[1], pis_tauplus_mc_truth[2]
-							if len(pis_tauplus) == 3:
-								pi1_tauplus, pi2_tauplus, pi3_tauplus = pis_tauplus[0], pis_tauplus[1], pis_tauplus[2]
+								pi1_tauplus, pi2_tauplus, pi3_tauplus = copy.deepcopy(pi1_tauplus_mc_truth), copy.deepcopy(pi2_tauplus_mc_truth), copy.deepcopy(pi3_tauplus_mc_truth)
 
 							if len(pis_tauminus_mc_truth) == 3:
 								pi1_tauminus_mc_truth, pi2_tauminus_mc_truth, pi3_tauminus_mc_truth = pis_tauminus_mc_truth[0], pis_tauminus_mc_truth[1], pis_tauminus_mc_truth[2]
-							if len(pis_tauplus) == 3:
-								pi1_tauminus, pi2_tauminus, pi3_tauminus = pis_tauminus[0], pis_tauminus[1], pis_tauminus[2]
+								pi1_tauminus, pi2_tauminus, pi3_tauminus = copy.deepcopy(pi1_tauminus_mc_truth), copy.deepcopy(pi2_tauminus_mc_truth), copy.deepcopy(pi3_tauminus_mc_truth)
 
 							# applying smearing
 							if self.cfg_ana.smear_momentum:
