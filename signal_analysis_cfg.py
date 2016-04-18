@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/output.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/signal_5k.root'])
 
 selected_components  = [input_component]
 
@@ -16,56 +16,56 @@ selected_components  = [input_component]
 # analyzer for signal events
 from heppy_fcc.analyzers.SignalAnalyzer import SignalAnalyzer
 sigana = cfg.Analyzer(SignalAnalyzer,
-					 smear_pv = False,
-					 # IDL-like res
-					 pv_x_resolution = 0.0025,
-					 pv_y_resolution = 0.0025,
-					 pv_z_resolution = 0.0025,
-					 # progressive res
-					#  pv_x_resolution = 0.001,
-					#  pv_y_resolution = 0.001,
-					#  pv_z_resolution = 0.001,
-					 # ALEPH-like res
-					#  pv_x_resolution = 0.01,
-					#  pv_y_resolution = 0.01,
-					#  pv_z_resolution = 0.01,
-					 smear_sv = False,
-					 # IDL-like res
-					 sv_x_resolution = 0.007,
-					 sv_y_resolution = 0.007,
-					 sv_z_resolution = 0.007,
-					 # progressive res
-					#  sv_x_resolution = 0.003,
-					#  sv_y_resolution = 0.003,
-					#  sv_z_resolution = 0.003,
-					#  ALEPH-like res
-					#  sv_x_resolution = 0.04,
-					#  sv_y_resolution = 0.04,
-					#  sv_z_resolution = 0.04,
-					 smear_tv = False,
-					 # IDL-like res
-					 tv_x_resolution = 0.005,
-					 tv_y_resolution = 0.005,
-					 tv_z_resolution = 0.005,
-					 # progressive res
-					#  tv_x_resolution = 0.002,
-					#  tv_y_resolution = 0.002,
-					#  tv_z_resolution = 0.002,
-					 # ALEPH-like res
-					#  tv_x_resolution = 0.02,
-					#  tv_y_resolution = 0.02,
-					#  tv_z_resolution = 0.02,
-					 smear_momentum = False,
-					 momentum_x_resolution = 0.01,
-					 momentum_y_resolution = 0.01,
-					 momentum_z_resolution = 0.01,
-					 stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
-					 tree_name = 'Events',
-					 tree_title = 'Events',
-					 mc_truth_tree_name = 'MCTruth',
-					 mc_truth_tree_title = 'MC Truth',
-					 verbose = False
-					 )
+					  smear_momentum = True,
+					  momentum_x_resolution = 0.01,
+					  momentum_y_resolution = 0.01,
+					  momentum_z_resolution = 0.01,
+					  smear_pv = True,
+					#   IDL-like res
+					  pv_x_resolution = 0.0025,
+					  pv_y_resolution = 0.0025,
+					  pv_z_resolution = 0.0025,
+					#   progressive res
+					#   pv_x_resolution = 0.001,
+					#   pv_y_resolution = 0.001,
+					#   pv_z_resolution = 0.001,
+					#   ALEPH-like res
+					#   pv_x_resolution = 0.01,
+					#   pv_y_resolution = 0.01,
+					#   pv_z_resolution = 0.01,
+					  smear_sv = True,
+					#   IDL-like res
+					  sv_x_resolution = 0.007,
+					  sv_y_resolution = 0.007,
+					  sv_z_resolution = 0.007,
+					#   progressive res
+					#   sv_x_resolution = 0.003,
+					#   sv_y_resolution = 0.003,
+					#   sv_z_resolution = 0.003,
+					#   ALEPH-like res
+					#   sv_x_resolution = 0.04,
+					#   sv_y_resolution = 0.04,
+					#   sv_z_resolution = 0.04,
+					  smear_tv = True,
+					#   IDL-like res
+					  tv_x_resolution = 0.005,
+					  tv_y_resolution = 0.005,
+					  tv_z_resolution = 0.005,
+					#   progressive res
+					#   tv_x_resolution = 0.002,
+					#   tv_y_resolution = 0.002,
+					#   tv_z_resolution = 0.002,
+					#   ALEPH-like res
+					#   tv_x_resolution = 0.02,
+					#   tv_y_resolution = 0.02,
+					#   tv_z_resolution = 0.02,
+					  stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
+					  tree_name = 'Events',
+					  tree_title = 'Events',
+					  mc_truth_tree_name = 'MCTruth',
+					  mc_truth_tree_title = 'MC Truth',
+					  verbose = False
+					  )
 
 # definition of a sequence of analyzers, the analyzers will process each event in this order
 sequence = cfg.Sequence([sigana])

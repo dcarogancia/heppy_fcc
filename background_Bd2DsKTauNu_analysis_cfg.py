@@ -16,49 +16,49 @@ selected_components  = [input_component]
 # analyzer for Bd -> Ds K* tau nu_tau events
 from heppy_fcc.analyzers.BackgroundBd2DsKTauNuAnalyzer import BackgroundBd2DsKTauNuAnalyzer
 bgana = cfg.Analyzer(BackgroundBd2DsKTauNuAnalyzer,
-					 smear_pv = True,
-					 # IDL-like res
-					#  pv_x_resolution = 0.0025,
- 				# 	 pv_y_resolution = 0.0025,
- 				# 	 pv_z_resolution = 0.0025,
- 					 # improved res
- 				# 	 pv_x_resolution = 0.001,
- 				# 	 pv_y_resolution = 0.001,
- 				# 	 pv_z_resolution = 0.001,
- 					 # ALEPH-like res
-					 pv_x_resolution = 0.01,
-					 pv_y_resolution = 0.01,
-					 pv_z_resolution = 0.01,
- 					 smear_sv = True,
-					 # IDL-like res
- 				# 	 sv_x_resolution = 0.007,
- 				# 	 sv_y_resolution = 0.007,
- 				# 	 sv_z_resolution = 0.007,
- 					 # improved res
- 				# 	 sv_x_resolution = 0.003,
- 				# 	 sv_y_resolution = 0.003,
- 				# 	 sv_z_resolution = 0.003,
- 					 #  ALEPH-like res
- 					 sv_x_resolution = 0.04,
- 					 sv_y_resolution = 0.04,
- 					 sv_z_resolution = 0.04,
- 					 smear_tv = True,
-					 # IDL-like res
- 				# 	 tv_x_resolution = 0.005,
- 				# 	 tv_y_resolution = 0.005,
- 				# 	 tv_z_resolution = 0.005,
- 					 # improved res
- 				# 	 tv_x_resolution = 0.002,
- 				# 	 tv_y_resolution = 0.002,
- 				# 	 tv_z_resolution = 0.002,
- 					 # ALEPH-like res
-					 tv_x_resolution = 0.02,
-					 tv_y_resolution = 0.02,
-					 tv_z_resolution = 0.02,
 					 smear_momentum = True,
 					 momentum_x_resolution = 0.01,
 					 momentum_y_resolution = 0.01,
 					 momentum_z_resolution = 0.01,
+					 smear_pv = True,
+					#  IDL-like res
+					 pv_x_resolution = 0.0025,
+ 					 pv_y_resolution = 0.0025,
+ 					 pv_z_resolution = 0.0025,
+					#  improved res
+	 				#  pv_x_resolution = 0.001,
+	 				#  pv_y_resolution = 0.001,
+	 				#  pv_z_resolution = 0.001,
+ 					#  ALEPH-like res
+					#  pv_x_resolution = 0.01,
+					#  pv_y_resolution = 0.01,
+					#  pv_z_resolution = 0.01,
+ 					 smear_sv = True,
+					#  IDL-like res
+ 					 sv_x_resolution = 0.007,
+ 					 sv_y_resolution = 0.007,
+ 					 sv_z_resolution = 0.007,
+ 					#  improved res
+	 				#  sv_x_resolution = 0.003,
+	 				#  sv_y_resolution = 0.003,
+	 				#  sv_z_resolution = 0.003,
+ 					#  ALEPH-like res
+	 				#  sv_x_resolution = 0.04,
+	 				#  sv_y_resolution = 0.04,
+	 				#  sv_z_resolution = 0.04,
+ 					 smear_tv = True,
+					#  IDL-like res
+ 					 tv_x_resolution = 0.005,
+ 					 tv_y_resolution = 0.005,
+ 					 tv_z_resolution = 0.005,
+ 					#  improved res
+	 				#  tv_x_resolution = 0.002,
+	 				#  tv_y_resolution = 0.002,
+	 				#  tv_z_resolution = 0.002,
+ 					#  ALEPH-like res
+					#  tv_x_resolution = 0.02,
+					#  tv_y_resolution = 0.02,
+					#  tv_z_resolution = 0.02,
 					 stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
 					 tree_name = 'Events',
 					 tree_title = 'Events',
