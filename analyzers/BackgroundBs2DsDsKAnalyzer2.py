@@ -78,9 +78,6 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 		self.mc_truth_tree.var('dplus_px')
 		self.mc_truth_tree.var('dplus_py')
 		self.mc_truth_tree.var('dplus_pz')
-		self.mc_truth_tree.var('dminus_px')
-		self.mc_truth_tree.var('dminus_py')
-		self.mc_truth_tree.var('dminus_pz')
 		self.mc_truth_tree.var('pi1_d_px')
 		self.mc_truth_tree.var('pi1_d_py')
 		self.mc_truth_tree.var('pi1_d_pz')
@@ -96,6 +93,9 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 		self.mc_truth_tree.var('pi0_d_px')
 		self.mc_truth_tree.var('pi0_d_py')
 		self.mc_truth_tree.var('pi0_d_pz')
+		self.mc_truth_tree.var('dminus_px')
+		self.mc_truth_tree.var('dminus_py')
+		self.mc_truth_tree.var('dminus_pz')
 		self.mc_truth_tree.var('tau_d_px')
 		self.mc_truth_tree.var('tau_d_py')
 		self.mc_truth_tree.var('tau_d_pz')
@@ -169,29 +169,31 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 		self.tree.var('pi3_tauminus_q')
 
 	def process(self, event):
+		pv_mc_truth = None # primary vertex (MC truth)
+		sv_mc_truth = None # secondary vertex (MC truth)
+		tv_d_mc_truth = None # Ds decay vertex (MC truth)
+		tv_tau_d_mc_truth = None # tau decay vertex (MC truth)
 		b_mc_truth = None # B particle (MC truth)
 		kstar_mc_truth = None # K* from B decay (MC truth)
 		k_mc_truth = None # K from K* decay (MC truth)
 		pi_k_mc_truth = None # pi from K* decay (MC truth)
 		dplus_mc_truth = None # Ds+ from Bs decay
-		dminus_mc_truth = None # Ds- from Bs decay
-		tau_d_mc_truth = None # tau+ from Ds decay (MC truth)
-		# tauminus_mc_truth = None # tau- from Ds- decay (MC truth)
-		# nu_dplus_mc_truth = None # nu from Ds+ decay (MC truth)
-		nu_d_mc_truth = None # nu from Ds decay (MC truth)
 		pi1_d_mc_truth = None # pi from Ds decay (MC truth)
 		pi2_d_mc_truth = None # pi from Ds decay (MC truth)
 		pi3_d_mc_truth = None # pi from Ds decay (MC truth)
 		pi0_d_mc_truth = None # pi0 from Ds decay (MC truth)
+		dminus_mc_truth = None # Ds- from Bs decay
+		tau_d_mc_truth = None # tau+ from Ds decay (MC truth)
 		pi1_tau_d_mc_truth = None # pi from tau decay (MC truth)
 		pi2_tau_d_mc_truth = None # pi from tau decay (MC truth)
 		pi3_tau_d_mc_truth = None # pi from tau decay (MC truth)
 		nu_tau_d_mc_truth = None # nu from tau decay (MC truth)
-		pv_mc_truth = None # primary vertex (MC truth)
-		sv_mc_truth = None # secondary vertex (MC truth)
-		tv_d_mc_truth = None # Ds decay vertex (MC truth)
-		tv_tau_d_mc_truth = None # tau decay vertex (MC truth)
+		nu_d_mc_truth = None # nu from Ds decay (MC truth)
 
+		pv = None # primary vertex
+		sv = None # secondary vertex
+		tv_tauplus = None # tau+ decay vertex
+		tv_tauminus = None # tau- decay vertex
 		k = None # K from K*0 decay
 		pi_k = None # pi from K*0 decay
 		pi1_tauplus = None # pi from tau+ decay
@@ -200,10 +202,6 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 		pi1_tauminus = None # pi from tau- decay
 		pi2_tauminus = None # pi from tau- decay
 		pi3_tauminus = None # pi from tau- decay
-		pv = None # primary vertex
-		sv = None # secondary vertex
-		tv_d = None # tau+ decay vertex
-		tv_tau_d = None # tau- decay vertex
 
 		pvsv_distance = 0. # distance between PV and SV
 		pb = 0. # B momentum
@@ -245,6 +243,7 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 						sv = copy.deepcopy(sv_mc_truth)
 
 						for ptc_gen2 in ptcs:
+							# checking B-decay products
 							if ptc_gen2.start_vertex == b_mc_truth.end_vertex:
 								# looking for Ds+
 								if ptc_gen2.pdgid == 431:
@@ -260,7 +259,7 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 
 						pis_d = list([])
 						for ptc_gen3 in ptcs:
-							# looking for decay products of Ds
+							# checking Ds-decay products
 							if ptc_gen3.start_vertex == dplus_mc_truth.end_vertex or ptc_gen3.start_vertex == dminus_mc_truth.end_vertex:
 								# looking for tau
 								if abs(ptc_gen3.pdgid) == 15:
@@ -287,14 +286,15 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 
 						if len(pis_d) == 3:
 							pi1_d_mc_truth, pi2_d_mc_truth, pi3_d_mc_truth = pis_d[0], pis_d[1], pis_d[2]
+							tv_d_mc_truth = pi0_d_mc_truth.start_vertex
+
 							total_q = pi1_d_mc_truth.charge + pi2_d_mc_truth.charge + pi3_d_mc_truth.charge
-							tv_d_mc_truth = dminus_mc_truth.end_vertex if total_q < 0 else dplus_mc_truth.end_vertex
 							if total_q < 0:
-								pi1_tauminus, pi2_tauminus, pi3_tauminus = copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi1_d_mc_truth)
+								pi1_tauminus, pi2_tauminus, pi3_tauminus = copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi2_d_mc_truth), copy.deepcopy(pi3_d_mc_truth)
 								tv_tauminus = copy.deepcopy(tv_d_mc_truth)
 								svtv_tauminus_distance = math.sqrt((tv_d_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_d_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_d_mc_truth.z - sv_mc_truth.z) ** 2)
 							else:
-								pi1_tauplus, pi2_tauplus, pi3_tauplus = copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi1_d_mc_truth)
+								pi1_tauplus, pi2_tauplus, pi3_tauplus = copy.deepcopy(pi1_d_mc_truth), copy.deepcopy(pi2_d_mc_truth), copy.deepcopy(pi3_d_mc_truth)
 								tv_tauplus = copy.deepcopy(tv_d_mc_truth)
 								svtv_tauplus_distance = math.sqrt((tv_d_mc_truth.x - sv_mc_truth.x) ** 2 + (tv_d_mc_truth.y - sv_mc_truth.y) ** 2 + (tv_d_mc_truth.z - sv_mc_truth.z) ** 2)
 
@@ -304,6 +304,7 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 							pis_tau_d_mc_truth = list([])
 
 							for ptc in ptcs:
+								# checking K*-decay products
 								if ptc.start_vertex == kstar_mc_truth.end_vertex:
 									# looking for K
 									if abs(ptc.pdgid) == 321:
@@ -315,6 +316,7 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 										pi_k_mc_truth = ptc
 										pi_k = copy.deepcopy(pi_k_mc_truth) # copy is needed in order to keep initial particle properties after smearing
 
+								# checking for tau (from Ds-decay) decay products
 								if ptc.start_vertex == tau_d_mc_truth.end_vertex:
 									# looking for pions from tau+ decay
 									if abs(ptc.pdgid) == 211:
