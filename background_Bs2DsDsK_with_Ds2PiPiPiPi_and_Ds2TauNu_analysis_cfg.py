@@ -1,4 +1,4 @@
-## Configuration script for background (B0s -> Ds+ Ds- K*0) analyzer
+## Configuration script for background (B0s -> Ds+ (-> pi+ pi+ pi- pi0) Ds- (tau- nu) K*0) analyzer
 
 import os
 import heppy.framework.config as cfg
@@ -7,15 +7,15 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bs2DsDsK.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bs2DsDsK_with_Ds2PiPiPiPi_and_Ds2TauNu_750.root'])
 
 selected_components  = [input_component]
 
 # analyzers
 
 # analyzer for Bs -> Ds Ds K* events
-from heppy_fcc.analyzers.BackgroundBs2DsDsKAnalyzer import BackgroundBs2DsDsKAnalyzer
-bgana = cfg.Analyzer(BackgroundBs2DsDsKAnalyzer,
+from heppy_fcc.analyzers.BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer import BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer
+bgana = cfg.Analyzer(BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer,
 					 smear_momentum = True,
 					 momentum_x_resolution = 0.01,
 					 momentum_y_resolution = 0.01,
@@ -29,10 +29,6 @@ bgana = cfg.Analyzer(BackgroundBs2DsDsKAnalyzer,
 					#  pv_x_resolution = 0.001,
 					#  pv_y_resolution = 0.001,
 					#  pv_z_resolution = 0.001,
-					#  ALEPH-like res
-					#  pv_x_resolution = 0.01,
-					#  pv_y_resolution = 0.01,
-					#  pv_z_resolution = 0.01,
 					 smear_sv = True,
 					#  IDL-like res
 					 sv_x_resolution = 0.007,
@@ -42,10 +38,6 @@ bgana = cfg.Analyzer(BackgroundBs2DsDsKAnalyzer,
 					#  sv_x_resolution = 0.003,
 					#  sv_y_resolution = 0.003,
 					#  sv_z_resolution = 0.003,
-					#  ALEPH-like res
- 					# sv_x_resolution = 0.04,
- 					# sv_y_resolution = 0.04,
- 					# sv_z_resolution = 0.04,
 					 smear_tv = True,
 					#  IDL-like res
 					 tv_x_resolution = 0.005,
@@ -55,10 +47,6 @@ bgana = cfg.Analyzer(BackgroundBs2DsDsKAnalyzer,
 					#  tv_x_resolution = 0.002,
 					#  tv_y_resolution = 0.002,
 					#  tv_z_resolution = 0.002,
-					#  ALEPH-like res
-					#  tv_x_resolution = 0.02,
-					#  tv_y_resolution = 0.02,
-					#  tv_z_resolution = 0.02,
 					 stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
 					 tree_name = 'Events',
 					 tree_title = 'Events',

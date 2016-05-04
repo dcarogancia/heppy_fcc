@@ -7,15 +7,15 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu.root'])
+input_component = cfg.Component('b2stt', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu_with_Ds2TauNu_1k.root'])
 
 selected_components  = [input_component]
 
 # analyzers
 
 # analyzer for Bd -> Ds K* tau nu_tau events
-from heppy_fcc.analyzers.BackgroundBd2DsKTauNuAnalyzer import BackgroundBd2DsKTauNuAnalyzer
-bgana = cfg.Analyzer(BackgroundBd2DsKTauNuAnalyzer,
+from heppy_fcc.analyzers.BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer import BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer
+bgana = cfg.Analyzer(BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer,
 					 smear_momentum = True,
 					 momentum_x_resolution = 0.01,
 					 momentum_y_resolution = 0.01,

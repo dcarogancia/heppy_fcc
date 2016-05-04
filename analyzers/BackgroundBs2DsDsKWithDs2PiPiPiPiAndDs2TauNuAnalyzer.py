@@ -25,7 +25,7 @@ def smear_momentum(p, px_resolution, py_resolution, pz_resolution):
 def smear_vertex(v, x_resolution, y_resolution, z_resolution):
 	return Vertex(numpy.random.normal(v.x, x_resolution), numpy.random.normal(v.y, y_resolution), numpy.random.normal(v.z, z_resolution))
 
-class BackgroundBs2DsDsKAnalyzer2(Analyzer):
+class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(Analyzer):
 	def beginLoop(self, setup):
 		self.start_time = time.time()
 		self.last_timestamp = time.time()
@@ -42,7 +42,7 @@ class BackgroundBs2DsDsKAnalyzer2(Analyzer):
 		self.pvsv_distance_hist = TH1F('pvsv_distance_hist', 'FD_{B}', 500, 0, 10)
 		self.max_svtv_distance_hist = TH1F('max_svtv_distance_hist', 'Max FD_{#tau}', 500, 0, 5)
 
-		super(BackgroundBs2DsDsKAnalyzer2, self).beginLoop(setup)
+		super(BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer, self).beginLoop(setup)
 		self.rootfile = TFile('/'.join([self.dirName, 'output.root']), 'recreate')
 
 		# tree to store MC truth values and its branches
