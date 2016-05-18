@@ -2,7 +2,17 @@ from heppy_fcc.utility.Momentum import Momentum
 from heppy_fcc.utility.Vertex import Vertex
 
 class Particle(object):
-	"""A class that represents a generated particle"""
+	"""
+		A class that represents a generated particle
+
+		Attributes:
+		pdgid (int): PDG ID of the particle
+		p (Momentum): the momentum of the particle
+		start_vertex (Vertex): the production vertex of the particle
+		end_vertex (Vertex): the decay vertex of the particle
+		status (int): HepMC status code of the particle
+		charge (float): the charge of the particle
+	"""
 
 	def __init__(self, pdgid = None, p = None, start_vertex = None, end_vertex = None, status = None, charge = None):
 		"""
@@ -13,8 +23,8 @@ class Particle(object):
 			p (optional, [Momentum]): the momentum of the particle. Defaults to None
 			start_vertex (optional, [Vertex]): the production vertex of the particle. Defaults to None
 			end_vertex (optional, [Vertex]): the decay vertex of the particle. Defaults to None
-			status (optional, [int]): HepMC status code of the particle
-			charge (optional, [float]): the charge of the particle
+			status (optional, [int]): HepMC status code of the particle. Defaults to None
+			charge (optional, [float]): the charge of the particle. Defaults to None
 		"""
 
 		super(Particle, self).__init__()
@@ -55,7 +65,7 @@ class Particle(object):
 			Checks the validity of the Particle
 
 			Returns:
-			bool: True if all the atributes but end_vertex are set, False otherwise
+			bool: True if all the attributes but end_vertex are set, False otherwise
 		"""
 
 		return (self.pdgid is not None) and (self.charge is not None) and (self.p is not None) and self.p.is_valid() and (self.start_vertex is not None) and self.start_vertex.is_valid()

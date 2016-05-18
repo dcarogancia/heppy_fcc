@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
 class Vertex(object):
-	"""A class that represents a 3D vertex"""
+	"""
+		A class that represents a 3D vertex
+
+		Attributes:
+		x (float): x-coordinate of the vertex
+		y (float): y-coordinate of the vertex
+		z (float): z-coordinate of the vertex
+	"""
 
 	def __init__(self, x = None, y = None, z = None):
 		"""
@@ -14,7 +21,7 @@ class Vertex(object):
 		"""
 
 		super(Vertex, self).__init__()
-		
+
 		self.x = x
 		self.y = y
 		self.z = z

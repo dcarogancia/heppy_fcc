@@ -1,16 +1,23 @@
 import math
 
 class Momentum(object):
-	"""A class that represents a physical momentum"""
+	"""
+		A class that represents a physical momentum
+
+		Attributes:
+		px (float): x-component of the momentum
+		py (float): y-component of the momentum
+		pz (float): z-component of the momentum
+	"""
 
 	def __init__(self, px = None, py = None, pz = None):
 		"""
 			Constructor
 
 			Args:
-			x (optional [float]): x-component of the momentum. Defaults to None
-			y (optional [float]): y-component of the momentum. Defaults to None
-			z (optional [float]): z-component of the momentum. Defaults to None
+			px (optional [float]): x-component of the momentum. Defaults to None
+			py (optional [float]): y-component of the momentum. Defaults to None
+			pz (optional [float]): z-component of the momentum. Defaults to None
 		"""
 
 		super(Momentum, self).__init__()
