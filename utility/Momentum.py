@@ -4,10 +4,31 @@ class Momentum(object):
 	"""A class that represents a physical momentum"""
 
 	def __init__(self, px = None, py = None, pz = None):
+		"""
+			Constructor
+
+			Args:
+			x (optional [float]): x-component of the momentum. Defaults to None
+			y (optional [float]): y-component of the momentum. Defaults to None
+			z (optional [float]): z-component of the momentum. Defaults to None
+		"""
+
 		super(Momentum, self).__init__()
+		
 		self.px = px
 		self.py = py
 		self.pz = pz
+
+	@classmethod
+	def fromlist(cls, lst):
+		"""
+			Classmethod that creates a Momentum from a list
+
+			Args:
+			lst (list): a list containing 3 elements
+		"""
+
+		return cls(lst[0], lst[1], lst[2])
 
 	def __repr__(self):
 		return 'Momentum({}, {}, {})'.format(self.px, self.py, self.pz)
@@ -24,8 +45,32 @@ class Momentum(object):
 	def __ne__(self, other):
 		return not self == other
 
+	def raw(self):
+		"""
+			Creates a list with components of the momentum
+
+			Returns:
+			list: a list conatining 3 elements - x, y and z components of the momentum
+		"""
+
+		return [self.x, self.y, self.z]
+
 	def is_valid(self):
+		"""
+			Checks the validity of the momentum
+
+			Returns:
+			bool: True if all the components are set, False otherwise
+		"""
+
 		return (self.px is not None) and (self.py is not None) and (self.pz is not None)
 
 	def absvalue(self):
+		"""
+			Absolute value of the momentum
+
+			Returns:
+			float: the absolute value of the momentum
+		"""
+
 		return math.sqrt(self.px ** 2 + self.py ** 2 + self.pz ** 2)
