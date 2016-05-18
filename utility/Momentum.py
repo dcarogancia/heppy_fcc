@@ -14,7 +14,7 @@ class Momentum(object):
 		"""
 
 		super(Momentum, self).__init__()
-		
+
 		self.px = px
 		self.py = py
 		self.pz = pz
@@ -53,7 +53,7 @@ class Momentum(object):
 			list: a list conatining 3 elements - x, y and z components of the momentum
 		"""
 
-		return [self.x, self.y, self.z]
+		return [self.px, self.py, self.pz]
 
 	def is_valid(self):
 		"""
