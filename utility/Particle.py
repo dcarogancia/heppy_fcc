@@ -1,5 +1,9 @@
-from heppy_fcc.utility.Momentum import Momentum
-from heppy_fcc.utility.Vertex import Vertex
+import math
+
+from Momentum import Momentum
+from Vertex import Vertex
+
+from StableParticleError import StableParticleError
 
 class Particle(object):
 	"""
@@ -69,3 +73,19 @@ class Particle(object):
 		"""
 
 		return (self.pdgid is not None) and (self.charge is not None) and (self.p is not None) and self.p.is_valid() and (self.start_vertex is not None) and self.start_vertex.is_valid()
+
+	def flight_distance(self):
+		"""
+			Calculates the flight distance of the particle
+
+			Returns:
+			float: the flight distance
+
+			Raises:
+			StableParticleError: in case the particle is stable
+		"""
+
+		if self.is_valid() and self.end_vertex is not None:
+			return math.sqrt((self.end_vertex.x - self.start_vertex.x) ** 2 + (self.end_vertex.y - self.start_vertex.y) ** 2 + (self.end_vertex.z - self.start_vertex.z) ** 2)
+		else:
+			raise StableParticleError()
