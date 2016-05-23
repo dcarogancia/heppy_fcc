@@ -21,7 +21,7 @@ sigana = cfg.Analyzer(Bs2TauTauAnalyzer,
 					 pv_x_resolution = 0.0025,
 					 pv_y_resolution = 0.0025,
 					 pv_z_resolution = 0.0025,
-					#  improved res
+					#  progressive res
 					#  pv_x_resolution = 0.001,
 					#  pv_y_resolution = 0.001,
 					#  pv_z_resolution = 0.001,
@@ -30,7 +30,7 @@ sigana = cfg.Analyzer(Bs2TauTauAnalyzer,
 					#  sv_x_resolution = 0.007,
 					#  sv_y_resolution = 0.007,
 					#  sv_z_resolution = 0.007,
-					#  improved res
+					#  progressive res
 					#  sv_x_resolution = 0.003,
 					#  sv_y_resolution = 0.003,
 					#  sv_z_resolution = 0.003,
@@ -39,7 +39,7 @@ sigana = cfg.Analyzer(Bs2TauTauAnalyzer,
 					 tv_x_resolution = 0.005,
 					 tv_y_resolution = 0.005,
 					 tv_z_resolution = 0.005,
-					#  improved res
+					#  progressive res
 					#  tv_x_resolution = 0.002,
 					#  tv_y_resolution = 0.002,
 					#  tv_z_resolution = 0.002,
@@ -52,8 +52,7 @@ sigana = cfg.Analyzer(Bs2TauTauAnalyzer,
 					 tree_title = 'Events',
 					 mc_truth_tree_name = 'MCTruth',
 					 mc_truth_tree_title = 'MC Truth',
-					 verbose = False
-					 )
+					 verbose = False)
 
 # definition of a sequence of analyzers, the analyzers will process each event in this order
 sequence = cfg.Sequence([sigana])
