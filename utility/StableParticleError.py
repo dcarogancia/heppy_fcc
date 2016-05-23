@@ -6,7 +6,7 @@
     StableParticleError - a class of the exceptions to be thrown in case of operations typical for decaying particles on a stable particle
 """
 
-class UnreconstructableEventError(RuntimeError):
+class StableParticleError(RuntimeError):
     """An exceptions to be thrown in case of operations typical for decaying particles on a stable particle"""
 
     def __init__(self, error_string = 'Particle is stable'):
@@ -16,4 +16,4 @@ class UnreconstructableEventError(RuntimeError):
             Args:
             error_string (optional, [str]): error message. Defaults to 'Particle is stable'
         """
-        super(UnreconstructableEventError, self).__init__(error_string)
+        super(StableParticleError, self).__init__(error_string)
