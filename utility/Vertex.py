@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+"""
+	Contains Vertex class definition
+
+	Vertex - a class that represents a 3D vertex
+"""
+
 class Vertex(object):
 	"""
 		A class that represents a 3D vertex

@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+
+"""
+	Contains the Momentum class definition
+
+	Momentum - a class that represents a physical momentum
+"""
+
 import math
 
 class Momentum(object):

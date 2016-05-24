@@ -1,5 +1,11 @@
 import math
 
+"""
+	Contains the Particle class definition
+
+	Particle - a clas that represents a generated particle
+"""
+
 from Momentum import Momentum
 from Vertex import Vertex
 
