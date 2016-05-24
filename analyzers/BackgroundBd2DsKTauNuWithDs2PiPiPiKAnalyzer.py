@@ -17,7 +17,7 @@ from heppy_fcc.utility.Particle import Particle
 
 class BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer(Analyzer):
 	"""
-		An analyzer of B0d -> K*0 Ds tau nu with Ds+ -> pi+ pi+ pi- pi0 background events
+		An analyzer of B0d -> K*0 Ds tau nu with Ds+ -> pi+ pi+ pi- K0L background events
 
 		Inherits from heppy.framework.analyzer.Analyzer. Overrides base class methods to cover analysis-specific needs
 	"""
