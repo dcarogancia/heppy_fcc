@@ -4,8 +4,7 @@
 	Configuration script for the analyzer of B0s -> K*0 Ds+ Ds- background events
 	                                                 |   |   |-> tau- nu
 													 |   |        |-> pi- pi- pi+ nu
-						                             |   |-> tau+ nu
-						                             |	      |-> pi+ pi+ pi- nu
+						                             |	 |-> pi+ pi+ pi- K0L
 						                             |-> K+ pi-
 
 	Note: it is supposed to be used within heppy_fcc framework
@@ -18,20 +17,20 @@ import logging
 from ROOT import gSystem
 from EventStore import EventStore as Events
 
-from heppy_fcc.analyzers.BackgroundBs2DsDsKWithDs2TauNuAnalyzer import BackgroundBs2DsDsKWithDs2TauNuAnalyzer
+from heppy_fcc.analyzers.BackgroundBs2DsDsKWithDs2PiPiPiKAndDs2TauNuAnalyzer import BackgroundBs2DsDsKWithDs2PiPiPiKAndDs2TauNuAnalyzer
 
 logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('ILD-like', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bs2DsDsK_with_Ds2TauNu_100k.root'])
+input_component = cfg.Component('ILD-like', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bs2DsDsK_with_Ds2PiPiPiK_and_Ds2TauNu_100k.root'])
 
 selected_components  = [input_component]
 
 # analyzers
 
 # analyzer for Bs -> Ds Ds K* events
-bgana = cfg.Analyzer(BackgroundBs2DsDsKWithDs2TauNuAnalyzer,
+bgana = cfg.Analyzer(BackgroundBs2DsDsKWithDs2PiPiPiKAndDs2TauNuAnalyzer,
 					 smear_momentum = True,
 					 momentum_x_resolution = 0.01,
 					 momentum_y_resolution = 0.01,

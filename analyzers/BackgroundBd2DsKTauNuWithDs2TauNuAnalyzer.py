@@ -1,44 +1,47 @@
-## Analyzer of B0d -> Ds K* tau nu events
-#  It is supposed to be used within heppy_fcc framework
+#!/usr/bin/env python
+
+"""
+	Analyzer of B0d -> K*0 Ds+ tau- nu events
+	                    |   |   |-> pi- pi- pi+ nu
+						|   |-> tau+ nu
+						|	     |-> pi+ pi+ pi- nu
+						|->	K+ pi-
+
+	Note: it is supposed to be used within heppy_fcc framework
+"""
 
 import math
 import time
 
 import numpy
 
-from ROOT import gROOT, TFile, TH1F, TCanvas
-
-from heppy.framework.analyzer import Analyzer
-from heppy.statistics.tree import Tree
-
-from heppy_fcc.utility.Momentum import Momentum
-from heppy_fcc.utility.Vertex import Vertex
+from heppy_fcc.utility.CommonAnalyzer import CommonAnalyzer
 from heppy_fcc.utility.Particle import Particle
 
-class BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer(Analyzer):
+class BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer(CommonAnalyzer):
 	"""
-		An analyzer of B0d -> K*0 Ds tau nu with Ds -> tau nu background events
+		Analyzer of B0d -> K*0 Ds+ tau- nu background events
+		                    |   |   |-> pi- pi- pi+ nu
+							|   |-> tau+ nu
+							|	     |-> pi+ pi+ pi- nu
+							|->	K+ pi-
 
-		Inherits from heppy.framework.analyzer.Analyzer. Overrides base class methods to cover analysis-specific needs
+		Inherits from heppy_fcc.utility.CommonAnalyzer. Extends the base class to cover analysis-specific needs
 	"""
 
 	def __init__(self, cfg_ana, cfg_comp, looper_name):
 		"""
 			Constructor
 
-			Just initializes the base class
+			Arguments:
+			cfg_ana: passed to the base class
+			cfg_comp: passed to the base class
+			looper_name: passed to the base class
 		"""
 
 		super(BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer, self).__init__(cfg_ana, cfg_comp, looper_name)
 
-	def beginLoop(self, setup):
-		"""Overriden base class function"""
-
-		self.rootfile = TFile('/'.join([self.dirName, 'output.root']), 'recreate')
-
-
-		# tree to store MC truth values and its branches
-		self.mc_truth_tree = Tree(self.cfg_ana.mc_truth_tree_name, self.cfg_ana.mc_truth_tree_title)
+		# MC truth values
 		self.mc_truth_tree.var('n_particles')
 		self.mc_truth_tree.var('event_number')
 		self.mc_truth_tree.var('pv_x')
@@ -113,75 +116,15 @@ class BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer(Analyzer):
 		self.mc_truth_tree.var('nu_py')
 		self.mc_truth_tree.var('nu_pz')
 
-		# same for smeared values
-		self.tree = Tree(self.cfg_ana.tree_name, self.cfg_ana.tree_title)
-		self.tree.var('n_particles')
-		self.tree.var('event_number')
-		self.tree.var('pv_x')
-		self.tree.var('pv_y')
-		self.tree.var('pv_z')
-		self.tree.var('sv_x')
-		self.tree.var('sv_y')
-		self.tree.var('sv_z')
-		self.tree.var('tv_tauplus_x')
-		self.tree.var('tv_tauplus_y')
-		self.tree.var('tv_tauplus_z')
-		self.tree.var('tv_tauminus_x')
-		self.tree.var('tv_tauminus_y')
-		self.tree.var('tv_tauminus_z')
-		self.tree.var('k_px')
-		self.tree.var('k_py')
-		self.tree.var('k_pz')
-		self.tree.var('k_q')
-		self.tree.var('pi_kstar_px')
-		self.tree.var('pi_kstar_py')
-		self.tree.var('pi_kstar_pz')
-		self.tree.var('pi_kstar_q')
-		self.tree.var('pi1_tauplus_px')
-		self.tree.var('pi1_tauplus_py')
-		self.tree.var('pi1_tauplus_pz')
-		self.tree.var('pi1_tauplus_q')
-		self.tree.var('pi2_tauplus_px')
-		self.tree.var('pi2_tauplus_py')
-		self.tree.var('pi2_tauplus_pz')
-		self.tree.var('pi2_tauplus_q')
-		self.tree.var('pi3_tauplus_px')
-		self.tree.var('pi3_tauplus_py')
-		self.tree.var('pi3_tauplus_pz')
-		self.tree.var('pi3_tauplus_q')
-		self.tree.var('pi1_tauminus_px')
-		self.tree.var('pi1_tauminus_py')
-		self.tree.var('pi1_tauminus_pz')
-		self.tree.var('pi1_tauminus_q')
-		self.tree.var('pi2_tauminus_px')
-		self.tree.var('pi2_tauminus_py')
-		self.tree.var('pi2_tauminus_pz')
-		self.tree.var('pi2_tauminus_q')
-		self.tree.var('pi3_tauminus_px')
-		self.tree.var('pi3_tauminus_py')
-		self.tree.var('pi3_tauminus_pz')
-		self.tree.var('pi3_tauminus_q')
-
-		# statistics
-		self.counter = 0 # Total number of processed decays
-		self.pb_counter = 0 # Number of events with B momentum > 25 GeV
-		self.pvsv_distance_counter = 0 # Number of events with distance between PV and SV > 1 mm
-		self.max_svtv_distance_counter = 0 # Number of events with any distance between SV and TV > 0.5 mm
-		# histograms to visualize cuts
-		TH1F.AddDirectory(False) # not to link histograms to files
-		gROOT.ProcessLine('.x ' + self.cfg_ana.stylepath) # nice looking plots
-		self.pb_hist = TH1F('pb_hist', 'P_{B}', 100, 0, 50)
-		self.pvsv_distance_hist = TH1F('pvsv_distance_hist', 'FD_{B}', 100, 0, 10)
-		self.max_svtv_distance_hist = TH1F('max_svtv_distance_hist', 'Max FD_{#tau}', 100, 0, 5)
-
-		super(BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer, self).beginLoop(setup)
-
-		# time
-		self.start_time = time.time()
-		self.last_timestamp = time.time()
-
 	def process(self, event):
-		"""Overriden base class function"""
+		"""
+            Overriden base class function
+
+			Processes the event
+
+            Arguments:
+			event: unused
+        """
 
 		b = None # B0d particle
 		kstar = None # K*0 from B0d decay
@@ -494,38 +437,3 @@ class BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer(Analyzer):
 							self.tree.fill('pi_kstar_pz', numpy.random.normal(pi_kstar.p.pz, self.cfg_ana.momentum_z_resolution) if self.cfg_ana.smear_momentum else pi_kstar.p.pz)
 
 							self.tree.tree.Fill()
-
-	def write(self, setup):
-		"""Overriden base class function"""
-
-		# finalizing writing to the file
-		self.rootfile.Write()
-		self.rootfile.Close()
-
-		# drawing the histograms
-		pb_canvas = TCanvas('pb_canvas', 'B momentum', 640, 480)
-		pb_canvas.cd()
-		self.pb_hist.GetXaxis().SetTitle('p_{B}, GeV/#it{c}')
-		self.pb_hist.GetYaxis().SetTitle('Events / ({} GeV/#it{{c}})'.format((self.pb_hist.GetXaxis().GetXmax() - self.pb_hist.GetXaxis().GetXmin()) / self.pb_hist.GetNbinsX()))
-		self.pb_hist.Draw()
-		pb_canvas.Update()
-
-		pvsv_distance_canvas = TCanvas('pvsv_distance_canvas', 'Distance between PV and SV', 640, 480)
-		pvsv_distance_canvas.cd()
-		self.pvsv_distance_hist.GetXaxis().SetTitle('mm')
-		self.pvsv_distance_hist.GetYaxis().SetTitle('Events / ({} mm)'.format((self.pvsv_distance_hist.GetXaxis().GetXmax() - self.pvsv_distance_hist.GetXaxis().GetXmin()) / self.pvsv_distance_hist.GetNbinsX()))
-		self.pvsv_distance_hist.Draw()
-		pvsv_distance_canvas.Update()
-
-		max_svtv_distance_canvas = TCanvas('max_svtv_distance_canvas', 'Max distance between SV and TV', 640, 480)
-		max_svtv_distance_canvas.cd()
-		self.max_svtv_distance_hist.GetXaxis().SetTitle('mm')
-		self.max_svtv_distance_hist.GetYaxis().SetTitle('Events / ({} mm)'.format((self.max_svtv_distance_hist.GetXaxis().GetXmax() - self.max_svtv_distance_hist.GetXaxis().GetXmin()) / self.max_svtv_distance_hist.GetNbinsX()))
-		self.max_svtv_distance_hist.Draw()
-		max_svtv_distance_canvas.Update()
-
-		# some useful statistics
-		print('Total decays processed: {}'.format(self.counter))
-		print('Elapsed time: {:.1f} s ({:.1f} decays / s)'.format(time.time() - self.start_time, float(self.counter) / (time.time() - self.start_time)))
-		print('Efficiency:\n\tMomentum of B cut: {:.3f}\n\tDistance between PV and SV cut: {:.3f}\n\tMax distance between SV and TV cut: {:.3f}'.format (float(self.pb_counter)/float(self.counter), float(self.pvsv_distance_counter)/float(self.counter), float(self.max_svtv_distance_counter)/float(self.counter)))
-		raw_input('Press ENTER when finished')

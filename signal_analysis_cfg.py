@@ -1,8 +1,23 @@
-## Configuration script for signal (B0d -> K*0 tau+ tau-) analyzer
+#!/usr/bin/env python
+
+"""
+	Configuration script for signal (B0d -> K*0 tau+ tau- nu) analyzer
+	                                         |   |    |-> pi- pi- pi+ nu
+						                     |	 |-> pi+ pi+ pi- nu
+						                     |-> K+ pi-
+
+	Note: it is supposed to be used within heppy_fcc framework
+"""
 
 import os
 import heppy.framework.config as cfg
 import logging
+
+from ROOT import gSystem
+from EventStore import EventStore as Events
+
+from heppy_fcc.analyzers.SignalAnalyzer import SignalAnalyzer
+
 logging.basicConfig(level=logging.WARNING)
 
 # input component
@@ -14,7 +29,6 @@ selected_components  = [input_component]
 # analyzers
 
 # analyzer for signal events
-from heppy_fcc.analyzers.SignalAnalyzer import SignalAnalyzer
 sigana = cfg.Analyzer(SignalAnalyzer,
 					  smear_momentum = True,
 					  momentum_x_resolution = 0.01,
@@ -82,7 +96,5 @@ sigana = cfg.Analyzer(SignalAnalyzer,
 sequence = cfg.Sequence([sigana])
 
 # finalization of the configuration object.
-from ROOT import gSystem
 gSystem.Load('libdatamodel')
-from EventStore import EventStore as Events
 config = cfg.Config(components = selected_components, sequence = sequence, services = [], events_class = Events)

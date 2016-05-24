@@ -1,8 +1,23 @@
-## Configuration script for background (B0d -> K*0 Ds tau nu) analyzer
+#!/usr/bin/env python
+
+"""
+	Configuration script for the analyzer of B0d -> K*0 Ds+ tau- nu background events
+	                                                 |   |   |-> pi- pi- pi+ nu
+						                             |   |-> pi+ pi+ pi- K0L
+						                             |-> K+ pi-
+
+	Note: it is supposed to be used within heppy_fcc framework
+"""
 
 import os
 import heppy.framework.config as cfg
 import logging
+
+from ROOT import gSystem
+from EventStore import EventStore as Events
+
+from heppy_fcc.analyzers.BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer import BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer
+
 logging.basicConfig(level=logging.WARNING)
 
 # input component
@@ -14,7 +29,6 @@ selected_components  = [input_component]
 # analyzers
 
 # analyzer for Bd -> Ds K* tau nu_tau events
-from heppy_fcc.analyzers.BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer import BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer
 bgana = cfg.Analyzer(BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer,
 					 smear_momentum = True,
 					 momentum_x_resolution = 0.01,
@@ -70,7 +84,5 @@ bgana = cfg.Analyzer(BackgroundBd2DsKTauNuWithDs2PiPiPiKAnalyzer,
 sequence = cfg.Sequence([bgana])
 
 # finalization of the configuration object.
-from ROOT import gSystem
 gSystem.Load('libdatamodel')
-from EventStore import EventStore as Events
 config = cfg.Config(components = selected_components, sequence = sequence, services = [], events_class = Events)

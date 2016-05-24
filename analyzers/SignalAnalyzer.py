@@ -1,5 +1,13 @@
-## Analyzer of B0d -> K*0 tau+ tau- events
-#  It is supposed to be used within heppy_fcc framework
+#!/usr/bin/env python
+
+"""
+	Analyzer of signal (B0d -> K*0 tau+ tau- nu) events
+	                            |   |    |-> pi- pi- pi+ nu
+						        |	|-> pi+ pi+ pi- nu
+						        |->	K+ pi-
+
+	Note: it is supposed to be used within heppy_fcc framework
+"""
 
 import math
 import time
@@ -17,7 +25,10 @@ from heppy_fcc.utility.Particle import Particle
 
 class SignalAnalyzer(Analyzer):
 	"""
-		An analyzer of signal (B0d -> K*0 tau+ tau-) events
+		Analyzer of signal (B0d -> K*0 tau+ tau- nu) events
+		                            |   |    |-> pi- pi- pi+ nu
+							        |	|-> pi+ pi+ pi- nu
+							        |->	K+ pi-
 
 		Inherits from heppy.framework.analyzer.Analyzer. Overrides base class methods to cover analysis-specific needs
 	"""

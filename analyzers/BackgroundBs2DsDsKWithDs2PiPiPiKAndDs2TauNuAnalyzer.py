@@ -4,7 +4,7 @@
 	Analyzer of B0d -> K*0 Ds+ Ds- events
 	                    |   |   |-> tau- nu
 						|   |        |-> pi- pi- pi+ nu
-						|   |-> pi+ pi+ pi- pi0
+						|   |-> pi+ pi+ pi- K0L
 						|->	K+ pi-
 
 	Note: it is supposed to be used within heppy_fcc framework
@@ -18,12 +18,12 @@ import numpy
 from heppy_fcc.utility.CommonAnalyzer import CommonAnalyzer
 from heppy_fcc.utility.Particle import Particle
 
-class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
+class BackgroundBs2DsDsKWithDs2PiPiPiKAndDs2TauNuAnalyzer(CommonAnalyzer):
 	"""
 		Analyzer of B0d -> K*0 Ds+ Ds- background events
 		                    |   |   |-> tau- nu
 							|   |        |-> pi- pi- pi+ nu
-							|   |-> pi+ pi+ pi- pi0
+							|   |-> pi+ pi+ pi- K0L
 							|->	K+ pi-
 
 		Inherits from heppy_fcc.utility.CommonAnalyzer. Extends the base class to cover analysis-specific needs
@@ -39,7 +39,7 @@ class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
 			looper_name: passed to the base class
 		"""
 
-		super(BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer, self).__init__(cfg_ana, cfg_comp, looper_name)
+		super(BackgroundBs2DsDsKWithDs2PiPiPiKAndDs2TauNuAnalyzer, self).__init__(cfg_ana, cfg_comp, looper_name)
 
 		# MC truth values
 		self.mc_truth_tree.var('n_particles')
@@ -85,9 +85,9 @@ class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
 		self.mc_truth_tree.var('pi3_d_py')
 		self.mc_truth_tree.var('pi3_d_pz')
 		self.mc_truth_tree.var('pi3_d_q')
-		self.mc_truth_tree.var('pi0_d_px')
-		self.mc_truth_tree.var('pi0_d_py')
-		self.mc_truth_tree.var('pi0_d_pz')
+		self.mc_truth_tree.var('k0_d_px')
+		self.mc_truth_tree.var('k0_d_py')
+		self.mc_truth_tree.var('k0_d_pz')
 		self.mc_truth_tree.var('dminus_px')
 		self.mc_truth_tree.var('dminus_py')
 		self.mc_truth_tree.var('dminus_pz')
@@ -123,7 +123,7 @@ class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
 		pi1_d = None # pi from Ds decay
 		pi2_d = None # pi from Ds decay
 		pi3_d = None # pi from Ds decay
-		pi0_d = None # pi0 from Ds decay
+		k0_d = None # pi0 from Ds decay
 		dminus = None # Ds- from Bs decay
 		tau_d = None # tau+ from Ds decay
 		pi1_tau_d = None # pi from tau decay
@@ -210,12 +210,12 @@ class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
 									pis_d.append(ptc_gen3)
 
 								# looking for pi0
-								if abs(ptc_gen3.pdgid) == 111:
-									pi0_d = ptc_gen3
+								if abs(ptc_gen3.pdgid) == 130:
+									k0_d = ptc_gen3
 
 						if len(pis_d) == 3:
 							pi1_d, pi2_d, pi3_d = pis_d[0], pis_d[1], pis_d[2]
-							tv_d = pi0_d.start_vertex
+							tv_d = k0_d.start_vertex
 
 						max_svtv_distance = max(math.sqrt((tv_d.x - sv.x) ** 2 + (tv_d.y - sv.y) ** 2 + (tv_d.z - sv.z) ** 2), math.sqrt((tv_tau_d.x - sv.x) ** 2 + (tv_tau_d.y - sv.y) ** 2 + (tv_tau_d.z - sv.z) ** 2))
 
@@ -326,9 +326,9 @@ class BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer(CommonAnalyzer):
 							self.mc_truth_tree.fill('pi3_d_py', pi3_d.p.py)
 							self.mc_truth_tree.fill('pi3_d_pz', pi3_d.p.pz)
 
-							self.mc_truth_tree.fill('pi0_d_px', pi0_d.p.px)
-							self.mc_truth_tree.fill('pi0_d_py', pi0_d.p.py)
-							self.mc_truth_tree.fill('pi0_d_pz', pi0_d.p.pz)
+							self.mc_truth_tree.fill('k0_d_px', k0_d.p.px)
+							self.mc_truth_tree.fill('k0_d_py', k0_d.p.py)
+							self.mc_truth_tree.fill('k0_d_pz', k0_d.p.pz)
 
 							self.mc_truth_tree.tree.Fill()
 
