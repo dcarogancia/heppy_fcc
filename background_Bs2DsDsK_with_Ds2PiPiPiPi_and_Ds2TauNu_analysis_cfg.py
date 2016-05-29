@@ -79,8 +79,7 @@ bgana = cfg.Analyzer(BackgroundBs2DsDsKWithDs2PiPiPiPiAndDs2TauNuAnalyzer,
 					 tree_title = 'Events',
 					 mc_truth_tree_name = 'MCTruth',
 					 mc_truth_tree_title = 'MC Truth',
-					 verbose = False
-					 )
+					 verbose = False)
 
 # definition of a sequence of analyzers, the analyzers will process each event in this order
 sequence = cfg.Sequence([bgana])
