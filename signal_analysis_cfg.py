@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 """
-	Configuration script for signal (B0d -> K*0 tau+ tau- nu) analyzer
-	                                         |   |    |-> pi- pi- pi+ nu
-						                     |	 |-> pi+ pi+ pi- nu
-						                     |-> K+ pi-
+    Configuration script for signal (B0d -> K*0 tau+ tau- nu) analyzer
+                                             |   |    |-> pi- pi- pi+ nu
+                                             |   |-> pi+ pi+ pi- nu
+                                             |-> K+ pi-
 
-	Note: it is supposed to be used within heppy_fcc framework
+    Note: it is supposed to be used within heppy_fcc framework
 """
 
 import os
@@ -30,67 +30,67 @@ selected_components  = [input_component]
 
 # analyzer for signal events
 sigana = cfg.Analyzer(SignalAnalyzer,
-					  smear_momentum = True,
-					  momentum_x_resolution = 0.01,
-					  momentum_y_resolution = 0.01,
-					  momentum_z_resolution = 0.01,
-					  smear_pv = True,
-				    #   ALEPH-like res
-				    #   pv_x_resolution = 0.01,
-				    #   pv_y_resolution = 0.01,
-				    #   pv_z_resolution = 0.01,
-					#   ILD-like res
-					  pv_x_resolution = 0.0025,
-					  pv_y_resolution = 0.0025,
-					  pv_z_resolution = 0.0025,
-					#   progressive res
-					#   pv_x_resolution = 0.001,
-					#   pv_y_resolution = 0.001,
-					#   pv_z_resolution = 0.001,
-					#   outstanding res
-					#   pv_x_resolution = 0.0005,
-					#   pv_y_resolution = 0.0005,
-					#   pv_z_resolution = 0.0005,
-					  smear_sv = True,
-					#   ALEPH-like res
-					#   sv_x_resolution = 0.04,
-					#   sv_y_resolution = 0.04,
-					#   sv_z_resolution = 0.04,
-					#   ILD-like res
-					  sv_x_resolution = 0.007,
-					  sv_y_resolution = 0.007,
-					  sv_z_resolution = 0.007,
-					#   progressive res
-					#   sv_x_resolution = 0.003,
-					#   sv_y_resolution = 0.003,
-					#   sv_z_resolution = 0.003,
-					#   outstanding res
-					#   sv_x_resolution = 0.0015,
-					#   sv_y_resolution = 0.0015,
-					#   sv_z_resolution = 0.0015,
-					  smear_tv = True,
-					#   ALEPH-like res
-					#   tv_x_resolution = 0.02,
-					#   tv_y_resolution = 0.02,
-					#   tv_z_resolution = 0.02,
-					#   ILD-like res
-					  tv_x_resolution = 0.005,
-					  tv_y_resolution = 0.005,
-					  tv_z_resolution = 0.005,
-					#   progressive res
-					#   tv_x_resolution = 0.002,
-					#   tv_y_resolution = 0.002,
-					#   tv_z_resolution = 0.002,
-					#   outstanding res
-					#   tv_x_resolution = 0.001,
-					#   tv_y_resolution = 0.001,
-					#   tv_z_resolution = 0.001,
-					  stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
-					  tree_name = 'Events',
-					  tree_title = 'Events',
-					  mc_truth_tree_name = 'MCTruth',
-					  mc_truth_tree_title = 'MC Truth',
-					  verbose = False)
+                      smear_momentum = True,
+                      momentum_x_resolution = 0.01,
+                      momentum_y_resolution = 0.01,
+                      momentum_z_resolution = 0.01,
+                      smear_pv = True,
+                    #   ALEPH-like res
+                    #   pv_x_resolution = 0.01,
+                    #   pv_y_resolution = 0.01,
+                    #   pv_z_resolution = 0.01,
+                    #   ILD-like res
+                      pv_x_resolution = 0.0025,
+                      pv_y_resolution = 0.0025,
+                      pv_z_resolution = 0.0025,
+                    #   progressive res
+                    #   pv_x_resolution = 0.001,
+                    #   pv_y_resolution = 0.001,
+                    #   pv_z_resolution = 0.001,
+                    #   outstanding res
+                    #   pv_x_resolution = 0.0005,
+                    #   pv_y_resolution = 0.0005,
+                    #   pv_z_resolution = 0.0005,
+                      smear_sv = True,
+                    #   ALEPH-like res
+                    #   sv_x_resolution = 0.04,
+                    #   sv_y_resolution = 0.04,
+                    #   sv_z_resolution = 0.04,
+                    #   ILD-like res
+                      sv_x_resolution = 0.007,
+                      sv_y_resolution = 0.007,
+                      sv_z_resolution = 0.007,
+                    #   progressive res
+                    #   sv_x_resolution = 0.003,
+                    #   sv_y_resolution = 0.003,
+                    #   sv_z_resolution = 0.003,
+                    #   outstanding res
+                    #   sv_x_resolution = 0.0015,
+                    #   sv_y_resolution = 0.0015,
+                    #   sv_z_resolution = 0.0015,
+                      smear_tv = True,
+                    #   ALEPH-like res
+                    #   tv_x_resolution = 0.02,
+                    #   tv_y_resolution = 0.02,
+                    #   tv_z_resolution = 0.02,
+                    #   ILD-like res
+                      tv_x_resolution = 0.005,
+                      tv_y_resolution = 0.005,
+                      tv_z_resolution = 0.005,
+                    #   progressive res
+                    #   tv_x_resolution = 0.002,
+                    #   tv_y_resolution = 0.002,
+                    #   tv_z_resolution = 0.002,
+                    #   outstanding res
+                    #   tv_x_resolution = 0.001,
+                    #   tv_y_resolution = 0.001,
+                    #   tv_z_resolution = 0.001,
+                      stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
+                      tree_name = 'Events',
+                      tree_title = 'Events',
+                      mc_truth_tree_name = 'MCTruth',
+                      mc_truth_tree_title = 'MC Truth',
+                      verbose = False)
 
 # definition of a sequence of analyzers, the analyzers will process each event in this order
 sequence = cfg.Sequence([sigana])
