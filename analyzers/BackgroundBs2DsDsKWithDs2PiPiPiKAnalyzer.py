@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-    Analyzer of B0d -> K*0 Ds+ Ds- events
+    Analyzer of B0s -> K*0 Ds+ Ds- events
                         |   |   |-> pi- pi- pi+ K0L
                         |   |-> pi+ pi+ pi- K0L
                         |-> K+ pi-
@@ -19,7 +19,7 @@ from heppy_fcc.utility.Particle import Particle
 
 class BackgroundBs2DsDsKWithDs2PiPiPiKAnalyzer(CommonAnalyzer):
     """
-        Analyzer of B0d -> K*0 Ds+ Ds- background events
+        Analyzer of B0s -> K*0 Ds+ Ds- background events
                             |   |   |-> pi- pi- pi+ K0L
                             |   |-> pi+ pi+ pi- K0L
                             |-> K+ pi-
