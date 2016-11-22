@@ -110,6 +110,7 @@ class SpecialBs2DsPiWithDs2KKPiAnalyzer(Analyzer):
 
         # statistics
         self.counter = 0 # Total number of processed decays
+        self.success_counter = 0
 
         gROOT.ProcessLine('.x ' + self.cfg_ana.stylepath) # nice looking plots
 
@@ -162,112 +163,116 @@ class SpecialBs2DsPiWithDs2KKPiAnalyzer(Analyzer):
 
         # looking for B
         for ptc_gen1 in ptcs:
-            if abs(ptc_gen1.pdgid) == 531 and ptc_gen1.start_vertex != ptc_gen1.end_vertex: # if B0s found and it's not an oscillation
+            if abs(ptc_gen1.pdgid) == 531 and ptc_gen1.start_vertex != ptc_gen1.end_vertex:
                 self.counter += 1
                 if self.counter % 100 == 0:
                     print('Processing decay #{} ({:.1f} decays / s)'.format(self.counter, 100. / (time.time() - self.last_timestamp)))
                     self.last_timestamp = time.time()
 
-                b = ptc_gen1
-                pv = b.start_vertex
-                sv = b.end_vertex
-                for ptc_gen2 in ptcs:
-                    if ptc_gen2.start_vertex == b.end_vertex:
-                        # looking for Ds
-                        if abs(ptc_gen2.pdgid) == 431:
-                            d = ptc_gen2
-                            tv = d.end_vertex
+                if ptc_gen1.end_vertex and abs(ptc_gen1.p.pz) / ptc_gen1.p.absvalue() <= math.cos(math.pi / 12): # if B0s found and it's not an oscillation
+                    b = ptc_gen1
+                    pv = b.start_vertex
+                    sv = b.end_vertex
+                    for ptc_gen2 in ptcs:
+                        if ptc_gen2.start_vertex == b.end_vertex and abs(ptc_gen2.p.pz) / ptc_gen2.p.absvalue() <= math.cos(math.pi / 12):
+                            # looking for Ds
+                            if abs(ptc_gen2.pdgid) == 431:
+                                d = ptc_gen2
+                                tv = d.end_vertex
 
-                        # looking for pi
-                        if abs(ptc_gen2.pdgid) == 211:
-                            pi = ptc_gen2
+                                for ptc_gen3 in ptcs:
+                                    if ptc_gen3.start_vertex == d.end_vertex and abs(ptc_gen3.p.pz) / ptc_gen3.p.absvalue() <= math.cos(math.pi / 12):
+                                        # looking for K+
+                                        if ptc_gen3.pdgid == 321:
+                                            kplus_d = ptc_gen3
 
-                for ptc_gen3 in ptcs:
-                    if ptc_gen3.start_vertex == d.end_vertex:
-                        # looking for K+
-                        if ptc_gen3.pdgid == 321:
-                            kplus_d = ptc_gen3
+                                        # looking for K-
+                                        if ptc_gen3.pdgid == -321:
+                                            kminus_d = ptc_gen3
 
-                        # looking for K-
-                        if ptc_gen3.pdgid == -321:
-                            kminus_d = ptc_gen3
+                                        # looking for pi
+                                        if abs(ptc_gen3.pdgid) == 211:
+                                            pi_d = ptc_gen3
 
-                        # looking for pi
-                        if abs(ptc_gen3.pdgid) == 211:
-                            pi_d = ptc_gen3
+                            # looking for pi
+                            if abs(ptc_gen2.pdgid) == 211:
+                                pi = ptc_gen2
 
-                # filling MC truth information
-                self.mc_truth_tree.fill('event_number', event_number)
-                self.mc_truth_tree.fill('n_particles', n_particles)
+                    if pv is not None and sv is not None and tv is not None and b is not None and pi is not None and d is not None and kplus_d is not None and kminus_d is not None and pi_d is not None:
+                        self.success_counter += 1
 
-                self.mc_truth_tree.fill('pv_x', pv.x)
-                self.mc_truth_tree.fill('pv_y', pv.y)
-                self.mc_truth_tree.fill('pv_z', pv.z)
-                self.mc_truth_tree.fill('sv_x', sv.x)
-                self.mc_truth_tree.fill('sv_y', sv.y)
-                self.mc_truth_tree.fill('sv_z', sv.z)
-                self.mc_truth_tree.fill('tv_x', tv.x)
-                self.mc_truth_tree.fill('tv_y', tv.y)
-                self.mc_truth_tree.fill('tv_z', tv.z)
+                        # filling MC truth information
+                        self.mc_truth_tree.fill('event_number', event_number)
+                        self.mc_truth_tree.fill('n_particles', n_particles)
 
-                self.mc_truth_tree.fill('b_px', b.p.px)
-                self.mc_truth_tree.fill('b_py', b.p.py)
-                self.mc_truth_tree.fill('b_pz', b.p.pz)
+                        self.mc_truth_tree.fill('pv_x', pv.x)
+                        self.mc_truth_tree.fill('pv_y', pv.y)
+                        self.mc_truth_tree.fill('pv_z', pv.z)
+                        self.mc_truth_tree.fill('sv_x', sv.x)
+                        self.mc_truth_tree.fill('sv_y', sv.y)
+                        self.mc_truth_tree.fill('sv_z', sv.z)
+                        self.mc_truth_tree.fill('tv_x', tv.x)
+                        self.mc_truth_tree.fill('tv_y', tv.y)
+                        self.mc_truth_tree.fill('tv_z', tv.z)
 
-                self.mc_truth_tree.fill('pi_q', pi.charge)
-                self.mc_truth_tree.fill('pi_px', pi.p.px)
-                self.mc_truth_tree.fill('pi_py', pi.p.py)
-                self.mc_truth_tree.fill('pi_pz', pi.p.pz)
+                        self.mc_truth_tree.fill('b_px', b.p.px)
+                        self.mc_truth_tree.fill('b_py', b.p.py)
+                        self.mc_truth_tree.fill('b_pz', b.p.pz)
 
-                self.mc_truth_tree.fill('d_px', d.p.px)
-                self.mc_truth_tree.fill('d_py', d.p.py)
-                self.mc_truth_tree.fill('d_pz', d.p.pz)
+                        self.mc_truth_tree.fill('pi_q', pi.charge)
+                        self.mc_truth_tree.fill('pi_px', pi.p.px)
+                        self.mc_truth_tree.fill('pi_py', pi.p.py)
+                        self.mc_truth_tree.fill('pi_pz', pi.p.pz)
 
-                self.mc_truth_tree.fill('kplus_d_px', kplus_d.p.px)
-                self.mc_truth_tree.fill('kplus_d_py', kplus_d.p.py)
-                self.mc_truth_tree.fill('kplus_d_pz', kplus_d.p.pz)
+                        self.mc_truth_tree.fill('d_px', d.p.px)
+                        self.mc_truth_tree.fill('d_py', d.p.py)
+                        self.mc_truth_tree.fill('d_pz', d.p.pz)
 
-                self.mc_truth_tree.fill('kminus_d_px', kminus_d.p.px)
-                self.mc_truth_tree.fill('kminus_d_py', kminus_d.p.py)
-                self.mc_truth_tree.fill('kminus_d_pz', kminus_d.p.pz)
+                        self.mc_truth_tree.fill('kplus_d_px', kplus_d.p.px)
+                        self.mc_truth_tree.fill('kplus_d_py', kplus_d.p.py)
+                        self.mc_truth_tree.fill('kplus_d_pz', kplus_d.p.pz)
 
-                self.mc_truth_tree.fill('pi_d_q', pi_d.charge)
-                self.mc_truth_tree.fill('pi_d_px', pi_d.p.px)
-                self.mc_truth_tree.fill('pi_d_py', pi_d.p.py)
-                self.mc_truth_tree.fill('pi_d_pz', pi_d.p.pz)
+                        self.mc_truth_tree.fill('kminus_d_px', kminus_d.p.px)
+                        self.mc_truth_tree.fill('kminus_d_py', kminus_d.p.py)
+                        self.mc_truth_tree.fill('kminus_d_pz', kminus_d.p.pz)
 
-                self.mc_truth_tree.tree.Fill()
+                        self.mc_truth_tree.fill('pi_d_q', pi_d.charge)
+                        self.mc_truth_tree.fill('pi_d_px', pi_d.p.px)
+                        self.mc_truth_tree.fill('pi_d_py', pi_d.p.py)
+                        self.mc_truth_tree.fill('pi_d_pz', pi_d.p.pz)
 
-                # filling event information
-                self.tree.fill('event_number', event_number)
-                self.tree.fill('n_particles', n_particles)
+                        self.mc_truth_tree.tree.Fill()
 
-                self.tree.fill('pv_x', numpy.random.normal(pv.x, self.cfg_ana.pv_x_resolution) if self.cfg_ana.smear_pv else pv.x)
-                self.tree.fill('pv_y', numpy.random.normal(pv.y, self.cfg_ana.pv_y_resolution) if self.cfg_ana.smear_pv else pv.y)
-                self.tree.fill('pv_z', numpy.random.normal(pv.z, self.cfg_ana.pv_z_resolution) if self.cfg_ana.smear_pv else pv.z)
-                self.tree.fill('tv_x', numpy.random.normal(tv.x, self.cfg_ana.tv_x_resolution) if self.cfg_ana.smear_tv else tv.x)
-                self.tree.fill('tv_y', numpy.random.normal(tv.y, self.cfg_ana.tv_y_resolution) if self.cfg_ana.smear_tv else tv.y)
-                self.tree.fill('tv_z', numpy.random.normal(tv.z, self.cfg_ana.tv_z_resolution) if self.cfg_ana.smear_tv else tv.z)
+                        # filling event information
+                        self.tree.fill('event_number', event_number)
+                        self.tree.fill('n_particles', n_particles)
 
-                self.tree.fill('pi_q', pi.charge)
-                self.tree.fill('pi_px', numpy.random.normal(pi.p.px, 2e-5 * pi.p.px ** 2) if self.cfg_ana.smear_momentum else pi.p.px)
-                self.tree.fill('pi_py', numpy.random.normal(pi.p.py, 2e-5 * pi.p.py ** 2) if self.cfg_ana.smear_momentum else pi.p.py)
-                self.tree.fill('pi_pz', numpy.random.normal(pi.p.pz, 2e-5 * pi.p.pz ** 2) if self.cfg_ana.smear_momentum else pi.p.pz)
+                        self.tree.fill('pv_x', pv.x)
+                        self.tree.fill('pv_y', pv.y)
+                        self.tree.fill('pv_z', pv.z)
+                        self.tree.fill('tv_x', tv.x)
+                        self.tree.fill('tv_y', tv.y)
+                        self.tree.fill('tv_z', tv.z)
 
-                self.tree.fill('kplus_d_px', numpy.random.normal(kplus_d.p.px, 2e-5 * kplus_d.p.px ** 2) if self.cfg_ana.smear_momentum else kplus_d.p.px)
-                self.tree.fill('kplus_d_py', numpy.random.normal(kplus_d.p.py, 2e-5 * kplus_d.p.py ** 2) if self.cfg_ana.smear_momentum else kplus_d.p.py)
-                self.tree.fill('kplus_d_pz', numpy.random.normal(kplus_d.p.pz, 2e-5 * kplus_d.p.pz ** 2) if self.cfg_ana.smear_momentum else kplus_d.p.pz)
+                        self.tree.fill('pi_q', pi.charge)
+                        self.tree.fill('pi_px', numpy.random.normal(pi.p.px, self.cfg_ana.momentum_resolution_a * abs(pi.p.px) ** 2 * pi.p.transverse() / pi.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi.p.px) * pi.p.absvalue() / pi.p.transverse()) if self.cfg_ana.smear_momentum else pi.p.px)
+                        self.tree.fill('pi_py', numpy.random.normal(pi.p.py, self.cfg_ana.momentum_resolution_a * abs(pi.p.py) ** 2 * pi.p.transverse() / pi.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi.p.py) * pi.p.absvalue() / pi.p.transverse()) if self.cfg_ana.smear_momentum else pi.p.py)
+                        self.tree.fill('pi_pz', numpy.random.normal(pi.p.pz, self.cfg_ana.momentum_resolution_a * abs(pi.p.pz) ** 2 * pi.p.transverse() / pi.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi.p.pz) * pi.p.absvalue() / pi.p.transverse()) if self.cfg_ana.smear_momentum else pi.p.pz)
 
-                self.tree.fill('kminus_d_px', numpy.random.normal(kminus_d.p.px, 2e-5 * kminus_d.p.px ** 2) if self.cfg_ana.smear_momentum else kminus_d.p.px)
-                self.tree.fill('kminus_d_py', numpy.random.normal(kminus_d.p.py, 2e-5 * kminus_d.p.py ** 2) if self.cfg_ana.smear_momentum else kminus_d.p.py)
-                self.tree.fill('kminus_d_pz', numpy.random.normal(kminus_d.p.pz, 2e-5 * kminus_d.p.pz ** 2) if self.cfg_ana.smear_momentum else kminus_d.p.pz)
+                        self.tree.fill('kplus_d_px', numpy.random.normal(kplus_d.p.px, self.cfg_ana.momentum_resolution_a * abs(kplus_d.p.px) ** 2 * kplus_d.p.transverse() / kplus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kplus_d.p.px) * kplus_d.p.absvalue() / kplus_d.p.transverse()) if self.cfg_ana.smear_momentum else kplus_d.p.px)
+                        self.tree.fill('kplus_d_py', numpy.random.normal(kplus_d.p.py, self.cfg_ana.momentum_resolution_a * abs(kplus_d.p.py) ** 2 * kplus_d.p.transverse() / kplus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kplus_d.p.py) * kplus_d.p.absvalue() / kplus_d.p.transverse()) if self.cfg_ana.smear_momentum else kplus_d.p.py)
+                        self.tree.fill('kplus_d_pz', numpy.random.normal(kplus_d.p.pz, self.cfg_ana.momentum_resolution_a * abs(kplus_d.p.pz) ** 2 * kplus_d.p.transverse() / kplus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kplus_d.p.pz) * kplus_d.p.absvalue() / kplus_d.p.transverse()) if self.cfg_ana.smear_momentum else kplus_d.p.pz)
 
-                self.tree.fill('pi_d_q', pi.charge)
-                self.tree.fill('pi_d_px', numpy.random.normal(pi_d.p.px, 2e-5 * pi_d.p.px ** 2) if self.cfg_ana.smear_momentum else pi_d.p.px)
-                self.tree.fill('pi_d_py', numpy.random.normal(pi_d.p.py, 2e-5 * pi_d.p.py ** 2) if self.cfg_ana.smear_momentum else pi_d.p.py)
-                self.tree.fill('pi_d_pz', numpy.random.normal(pi_d.p.pz, 2e-5 * pi_d.p.pz ** 2) if self.cfg_ana.smear_momentum else pi_d.p.pz)
+                        self.tree.fill('kminus_d_px', numpy.random.normal(kminus_d.p.px, self.cfg_ana.momentum_resolution_a * abs(kminus_d.p.px) ** 2 * kminus_d.p.transverse() / kminus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kminus_d.p.px) * kminus_d.p.absvalue() / kminus_d.p.transverse()) if self.cfg_ana.smear_momentum else kminus_d.p.px)
+                        self.tree.fill('kminus_d_py', numpy.random.normal(kminus_d.p.py, self.cfg_ana.momentum_resolution_a * abs(kminus_d.p.py) ** 2 * kminus_d.p.transverse() / kminus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kminus_d.p.py) * kminus_d.p.absvalue() / kminus_d.p.transverse()) if self.cfg_ana.smear_momentum else kminus_d.p.py)
+                        self.tree.fill('kminus_d_pz', numpy.random.normal(kminus_d.p.pz, self.cfg_ana.momentum_resolution_a * abs(kminus_d.p.pz) ** 2 * kminus_d.p.transverse() / kminus_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(kminus_d.p.pz) * kminus_d.p.absvalue() / kminus_d.p.transverse()) if self.cfg_ana.smear_momentum else kminus_d.p.pz)
 
-                self.tree.tree.Fill()
+                        self.tree.fill('pi_d_q', pi_d.charge)
+                        self.tree.fill('pi_d_px', numpy.random.normal(pi_d.p.px, self.cfg_ana.momentum_resolution_a * abs(pi_d.p.px) ** 2 * pi_d.p.transverse() / pi_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi_d.p.px) * pi_d.p.absvalue() / pi_d.p.transverse()) if self.cfg_ana.smear_momentum else pi_d.p.px)
+                        self.tree.fill('pi_d_py', numpy.random.normal(pi_d.p.py, self.cfg_ana.momentum_resolution_a * abs(pi_d.p.py) ** 2 * pi_d.p.transverse() / pi_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi_d.p.py) * pi_d.p.absvalue() / pi_d.p.transverse()) if self.cfg_ana.smear_momentum else pi_d.p.py)
+                        self.tree.fill('pi_d_pz', numpy.random.normal(pi_d.p.pz, self.cfg_ana.momentum_resolution_a * abs(pi_d.p.pz) ** 2 * pi_d.p.transverse() / pi_d.p.absvalue() + self.cfg_ana.momentum_resolution_b * abs(pi_d.p.pz) * pi_d.p.absvalue() / pi_d.p.transverse()) if self.cfg_ana.smear_momentum else pi_d.p.pz)
+
+                        self.tree.tree.Fill()
 
     def write(self, setup):
         """
@@ -285,4 +290,5 @@ class SpecialBs2DsPiWithDs2KKPiAnalyzer(Analyzer):
 
         # some useful statistics
         print('Total decays processed: {}'.format(self.counter))
+        print('Efficiency: {:.3f}'.format(float(self.success_counter)  / self.counter))
         print('Elapsed time: {:.1f} s ({:.1f} decays / s)'.format(time.time() - self.start_time, float(self.counter) / (time.time() - self.start_time)))

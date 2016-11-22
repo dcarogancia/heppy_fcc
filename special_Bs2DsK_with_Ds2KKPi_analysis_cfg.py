@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('outstanding', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/special_Bs2DsK_with_Ds2KKPi_5k.root'])
+input_component = cfg.Component('ILD', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/special_Bs2DsK_with_Ds2KKPi_10k.root'])
 
 selected_components  = [input_component]
 
@@ -29,48 +29,12 @@ selected_components  = [input_component]
 # analyzer for Bs -> Ds K events
 bgana = cfg.Analyzer(SpecialBs2DsKWithDs2KKPiAnalyzer,
                      smear_momentum = True,
-                     momentum_x_resolution = 0.01,
-                     momentum_y_resolution = 0.01,
-                     momentum_z_resolution = 0.01,
-                     smear_pv = True,
-                    #  IDL-like res
-                    #  pv_x_resolution = 0.0025,
-                    #  pv_y_resolution = 0.0025,
-                    #  pv_z_resolution = 0.0025,
-                    #  progressive res
-                    #  pv_x_resolution = 0.001,
-                    #  pv_y_resolution = 0.001,
-                    #  pv_z_resolution = 0.001,
-                    #  outstanding res
-                     pv_x_resolution = 0.0005,
-                     pv_y_resolution = 0.0005,
-                     pv_z_resolution = 0.0005,
-                     smear_sv = True,
-                    #  IDL-like res
-                    #  sv_x_resolution = 0.007,
-                    #  sv_y_resolution = 0.007,
-                    #  sv_z_resolution = 0.007,
-                    #  progressive res
-                    #  sv_x_resolution = 0.003,
-                    #  sv_y_resolution = 0.003,
-                    #  sv_z_resolution = 0.003,
-                    #  outstanding res
-                     sv_x_resolution = 0.0015,
-                     sv_y_resolution = 0.0015,
-                     sv_z_resolution = 0.0015,
-                     smear_tv = True,
-                    #  IDL-like res
-                    #  tv_x_resolution = 0.005,
-                    #  tv_y_resolution = 0.005,
-                    #  tv_z_resolution = 0.005,
-                    #  progressive res
-                    #  tv_x_resolution = 0.002,
-                    #  tv_y_resolution = 0.002,
-                    #  tv_z_resolution = 0.002,
-                    #  outstanding res
-                     tv_x_resolution = 0.001,
-                     tv_y_resolution = 0.001,
-                     tv_z_resolution = 0.001,
+                    #  ILD
+                     momentum_resolution_a = 2e-5,
+                     momentum_resolution_b = 1e-3,
+                     # FCC
+                    #  momentum_resolution_a = 1e-5,
+                    #  momentum_resolution_b = 5e-4,
                      stylepath = os.environ.get('FCC') + 'lhcbstyle.C',
                      tree_name = 'Events',
                      tree_title = 'Events',
@@ -83,4 +47,4 @@ sequence = cfg.Sequence([bgana])
 
 # finalization of the configuration object.
 gSystem.Load('libdatamodel')
-config = cfg.Config(components = selected_components, sequence = sequence, services = [],events_class = Events)
+config = cfg.Config(components = selected_components, sequence = sequence, services = [], events_class = Events)
