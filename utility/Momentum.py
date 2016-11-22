@@ -89,3 +89,13 @@ class Momentum(object):
 		"""
 
 		return math.sqrt(self.px ** 2 + self.py ** 2 + self.pz ** 2)
+
+	def transverse(self):
+		"""
+			Transverse value of the momentum
+
+			Returns:
+			float: the transverse value of the momentum
+		"""
+
+		return math.sqrt(self.px ** 2 + self.py ** 2)
