@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-    Configuration script for the analyzer of B0s -> K+ Ds- events (special for Stephane)
-                                                        |-> K- K+ pi-
+    Configuration script for the analyzer of B0s -> pi+ Ds- events (special for Stephane)
+                                                         |-> K- K+ pi-
 
     Note: it is supposed to be used within heppy_fcc framework
 """
@@ -14,20 +14,20 @@ import logging
 from ROOT import gSystem
 from EventStore import EventStore as Events
 
-from heppy_fcc.analyzers.SpecialBs2DsKWithDs2KKPiAnalyzer import SpecialBs2DsKWithDs2KKPiAnalyzer
+from heppy_fcc.analyzers.SpecialBs2DsPiWithDs2KKPiAnalyzer import SpecialBs2DsPiWithDs2KKPiAnalyzer
 
 logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('outstanding', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/special_Bs2DsK_with_Ds2KKPi_5k.root'])
+input_component = cfg.Component('outstanding', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/special_Bs2DsPi_with_Ds2KKPi_5k.root'])
 
 selected_components  = [input_component]
 
 # analyzers
 
-# analyzer for Bs -> Ds K events
-bgana = cfg.Analyzer(SpecialBs2DsKWithDs2KKPiAnalyzer,
+# analyzer for Bs -> Ds pi events
+bgana = cfg.Analyzer(SpecialBs2DsPiWithDs2KKPiAnalyzer,
                      smear_momentum = True,
                      momentum_x_resolution = 0.01,
                      momentum_y_resolution = 0.01,
