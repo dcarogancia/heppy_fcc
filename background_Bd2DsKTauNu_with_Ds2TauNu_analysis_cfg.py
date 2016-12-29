@@ -15,9 +15,11 @@ import heppy.framework.config as cfg
 import logging
 logging.basicConfig(level=logging.WARNING)
 
+import numpy
+
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('ILD-like', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu_with_Ds2TauNu_100k.root'])
+input_component = cfg.Component('FCC_progressive', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/background_Bd2DsKTauNu_with_Ds2TauNu_1k.root'])
 
 selected_components  = [input_component]
 
@@ -27,44 +29,45 @@ selected_components  = [input_component]
 from heppy_fcc.analyzers.BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer import BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer
 bgana = cfg.Analyzer(BackgroundBd2DsKTauNuWithDs2TauNuAnalyzer,
                      smear_momentum = True,
-                     momentum_x_resolution = 0.01,
-                     momentum_y_resolution = 0.01,
-                     momentum_z_resolution = 0.01,
+                     momentum_smearer = lambda p_i, p: numpy.random.normal(p_i, 1e-5 * p_i ** 2 * p.transverse() / p.absvalue() + 5e-4 * abs(p_i) * p.absvalue() / p.transverse()),
+                    #  momentum_x_resolution = 0.01,
+                    #  momentum_y_resolution = 0.01,
+                    #  momentum_z_resolution = 0.01,
                      smear_pv = True,
                     #  ILD-like res
-                     pv_x_resolution = 0.0025,
-                     pv_y_resolution = 0.0025,
-                     pv_z_resolution = 0.0025,
+                    #  pv_x_resolution = 0.0025,
+                    #  pv_y_resolution = 0.0025,
+                    #  pv_z_resolution = 0.0025,
                     #  progressive res
-                    #  pv_x_resolution = 0.001,
-                    #  pv_y_resolution = 0.001,
-                    #  pv_z_resolution = 0.001,
+                     pv_x_resolution = 0.001,
+                     pv_y_resolution = 0.001,
+                     pv_z_resolution = 0.001,
                     #  outstanding res
                     #  pv_x_resolution = 0.0005,
                     #  pv_y_resolution = 0.0005,
                     #  pv_z_resolution = 0.0005,
                       smear_sv = True,
                     #  ILD-like res
-                     sv_x_resolution = 0.007,
-                     sv_y_resolution = 0.007,
-                     sv_z_resolution = 0.007,
+                    #  sv_x_resolution = 0.007,
+                    #  sv_y_resolution = 0.007,
+                    #  sv_z_resolution = 0.007,
                     #  progressive res
-                    #  sv_x_resolution = 0.003,
-                    #  sv_y_resolution = 0.003,
-                    #  sv_z_resolution = 0.003,
+                     sv_x_resolution = 0.003,
+                     sv_y_resolution = 0.003,
+                     sv_z_resolution = 0.003,
                     #  outstanding res
                     #  sv_x_resolution = 0.0015,
                     #  sv_y_resolution = 0.0015,
                     #  sv_z_resolution = 0.0015,
                       smear_tv = True,
                     #  ILD-like res
-                     tv_x_resolution = 0.005,
-                     tv_y_resolution = 0.005,
-                     tv_z_resolution = 0.005,
+                    #  tv_x_resolution = 0.005,
+                    #  tv_y_resolution = 0.005,
+                    #  tv_z_resolution = 0.005,
                     #  progressive res
-                    #  tv_x_resolution = 0.002,
-                    #  tv_y_resolution = 0.002,
-                    #  tv_z_resolution = 0.002,
+                     tv_x_resolution = 0.002,
+                     tv_y_resolution = 0.002,
+                     tv_z_resolution = 0.002,
                     #  outstanding res
                     #  tv_x_resolution = 0.001,
                     #  tv_y_resolution = 0.001,

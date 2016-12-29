@@ -13,6 +13,8 @@ import os
 import heppy.framework.config as cfg
 import logging
 
+import numpy
+
 from ROOT import gSystem
 from EventStore import EventStore as Events
 
@@ -22,7 +24,7 @@ logging.basicConfig(level=logging.WARNING)
 
 # input component
 # several input components can be declared and added to the list of selected components
-input_component = cfg.Component('ILD-like', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/signal_100k.root'])
+input_component = cfg.Component('FCC_progressive', files = ['/afs/cern.ch/work/a/ansemkiv/private/FCC/analysis/signal_5k.root'])
 
 selected_components  = [input_component]
 
@@ -31,22 +33,30 @@ selected_components  = [input_component]
 # analyzer for signal events
 sigana = cfg.Analyzer(SignalAnalyzer,
                       smear_momentum = True,
-                      momentum_x_resolution = 0.01,
-                      momentum_y_resolution = 0.01,
-                      momentum_z_resolution = 0.01,
+                      momentum_smearer = lambda p_i, p: numpy.random.normal(p_i, 1e-5 * p_i ** 2 * p.transverse() / p.absvalue() + 5e-4 * abs(p_i) * p.absvalue() / p.transverse()),
+                    #   ILD
+                    #   momentum_resolution_a = 2e-5,
+                    #   momentum_resolution_b = 1e-3,
+                    #   FCC
+                    #   momentum_resolution_a = 1e-5,
+                    #   momentum_resolution_b = 5e-4,
+                    #   old
+                    #   momentum_x_resolution = 0.01,
+                    #   momentum_y_resolution = 0.01,
+                    #   momentum_z_resolution = 0.01,
                       smear_pv = True,
                     #   ALEPH-like res
                     #   pv_x_resolution = 0.01,
                     #   pv_y_resolution = 0.01,
                     #   pv_z_resolution = 0.01,
                     #   ILD-like res
-                      pv_x_resolution = 0.0025,
-                      pv_y_resolution = 0.0025,
-                      pv_z_resolution = 0.0025,
+                    #   pv_x_resolution = 0.0025,
+                    #   pv_y_resolution = 0.0025,
+                    #   pv_z_resolution = 0.0025,
                     #   progressive res
-                    #   pv_x_resolution = 0.001,
-                    #   pv_y_resolution = 0.001,
-                    #   pv_z_resolution = 0.001,
+                      pv_x_resolution = 0.001,
+                      pv_y_resolution = 0.001,
+                      pv_z_resolution = 0.001,
                     #   outstanding res
                     #   pv_x_resolution = 0.0005,
                     #   pv_y_resolution = 0.0005,
@@ -57,13 +67,13 @@ sigana = cfg.Analyzer(SignalAnalyzer,
                     #   sv_y_resolution = 0.04,
                     #   sv_z_resolution = 0.04,
                     #   ILD-like res
-                      sv_x_resolution = 0.007,
-                      sv_y_resolution = 0.007,
-                      sv_z_resolution = 0.007,
+                    #   sv_x_resolution = 0.007,
+                    #   sv_y_resolution = 0.007,
+                    #   sv_z_resolution = 0.007,
                     #   progressive res
-                    #   sv_x_resolution = 0.003,
-                    #   sv_y_resolution = 0.003,
-                    #   sv_z_resolution = 0.003,
+                      sv_x_resolution = 0.003,
+                      sv_y_resolution = 0.003,
+                      sv_z_resolution = 0.003,
                     #   outstanding res
                     #   sv_x_resolution = 0.0015,
                     #   sv_y_resolution = 0.0015,
@@ -74,13 +84,13 @@ sigana = cfg.Analyzer(SignalAnalyzer,
                     #   tv_y_resolution = 0.02,
                     #   tv_z_resolution = 0.02,
                     #   ILD-like res
-                      tv_x_resolution = 0.005,
-                      tv_y_resolution = 0.005,
-                      tv_z_resolution = 0.005,
+                    #   tv_x_resolution = 0.005,
+                    #   tv_y_resolution = 0.005,
+                    #   tv_z_resolution = 0.005,
                     #   progressive res
-                    #   tv_x_resolution = 0.002,
-                    #   tv_y_resolution = 0.002,
-                    #   tv_z_resolution = 0.002,
+                      tv_x_resolution = 0.002,
+                      tv_y_resolution = 0.002,
+                      tv_z_resolution = 0.002,
                     #   outstanding res
                     #   tv_x_resolution = 0.001,
                     #   tv_y_resolution = 0.001,

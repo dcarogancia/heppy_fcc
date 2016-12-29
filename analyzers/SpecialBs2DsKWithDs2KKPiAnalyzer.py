@@ -163,13 +163,13 @@ class SpecialBs2DsKWithDs2KKPiAnalyzer(Analyzer):
 
         # looking for B
         for ptc_gen1 in ptcs:
-            if abs(ptc_gen1.pdgid) == 531 and ptc_gen1.start_vertex != ptc_gen1.end_vertex:
+            if abs(ptc_gen1.pdgid) == 531 and ptc_gen1.start_vertex != ptc_gen1.end_vertex: # if B0s found and it's not an oscillation
                 self.counter += 1
                 if self.counter % 100 == 0:
                     print('Processing decay #{} ({:.1f} decays / s)'.format(self.counter, 100. / (time.time() - self.last_timestamp)))
                     self.last_timestamp = time.time()
 
-                if abs(ptc_gen1.p.pz) / ptc_gen1.p.absvalue() <= math.cos(math.pi / 12): # if B0s found and it's not an oscillation
+                if abs(ptc_gen1.p.pz) / ptc_gen1.p.absvalue() <= math.cos(math.pi / 12):
                     b = ptc_gen1
                     pv = b.start_vertex
                     sv = b.end_vertex
